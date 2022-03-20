@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+  }
+  
+  .leftSideContainer {
+    width: 50vw;
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10vw 5vw;
+    gap: 2vh;
+  }
+  
+  .titleContainer {
+  }
+  
+  .inputText {
+    font-size: 1.5rem;
+  }
+  
+  .input {
+    width: 100%;
+    height: 4vh;
+    margin-top: 1vh;
+    border: solid 3px #9d9d9d;
+    border-radius: 1vh;
+    padding: 0 1vh;
+    font-size: 1rem;
+    color: #4b558c;
+  }
+  
+  .input:focus {
+    outline: none !important;
+    border: solid 3px #4b558c;
+  }
+  
+  .titleText {
+    font-size: 4rem;
+  }
+  
+  .rightSideContainer {
+    width: 50vw;
+    background-color: #4b558c;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  .imageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .rights {
+    position: absolute;
+    color: white;
+    align-items: flex-end;
+    bottom: 3vh;
+    right: 3vh;
+  }
+  
+  .button {
+    color: white;
+    background-color: #4b558c;
+    cursor: pointer;
+    height: 3rem;
+    border-radius: 1rem;
+    font-size: 1.25rem;
+    width: 100%;
+    align-self: center;
+  }
+  
+  .buttonContainer {
+    align-self: center;
+    width: 100%;
+    height: 3rem;
+    margin-top: 1rem;
+  }
+  
+  .btnCont {
+    align-self: center;
+    width: 40%;
+  }
+  
