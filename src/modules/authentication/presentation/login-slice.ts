@@ -1,5 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../config/store';
+import UserModel from '../core/domain/user.model';
 import { LoginProps } from '../core/props/authentication.props';
 import LoginUserUsecase from '../core/usecases/login-user.usecase';
 import { LoginRepositoryResponse } from '../data/repository/authentication-repository';
@@ -24,7 +25,7 @@ export const loginUser = createAsyncThunk(
       password: loginProps.password,
     });
     
-    return response.data;
+    return response;
   }
 );
 
@@ -38,7 +39,10 @@ export const loginSlice = createSlice({
         .addCase(loginUser.pending, (state : any, action : any) => {
           state.status = LoginState.inProgress;
         })
-        .addCase(loginUser.fulfilled, (state : any, action : any) => {
+        .addCase(loginUser.fulfilled, (state : any, action : PayloadAction<{message: string, token: string}>) => {
+          // localStorage.setItem('authentication', action.payload.data.token);
+          // console.log(action.payload);
+          
           state.status = LoginState.success;
         });
     },

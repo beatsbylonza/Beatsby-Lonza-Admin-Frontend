@@ -7,7 +7,7 @@ const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
 export interface LoginRepositoryResponse{
     data: {
         message: string;
-        data: string;
+        token: string;
     }
 }
 

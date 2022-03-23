@@ -29,12 +29,11 @@ export const authenticationSlice = createSlice({
             
             state.status = AuthenticationState.inProgress;
         },
-        authenticationSuccess : (state) => {
-
+        authenticationSuccess : (state, action:  PayloadAction<UserModel>) => {
+            state.user = action.payload;
             state.status = AuthenticationState.success;
         },
         authenticationFails : (state) => {
-
             state.status = AuthenticationState.fail;
         },
     },

@@ -4,20 +4,33 @@ import logo from '../../../assets/image/logo.png';
 import { useAppSelector, useAppDispatch } from '../../config/hooks';
 import { LoginState, loginUser, selectLogin, } from './login-slice';
 import { useNavigate  } from "react-router-dom";
+import { useEffect, useRef } from 'react';
 
 
 
 /* Login Page Module */
 export default function LoginPage(){
-  
   const currentState  = useAppSelector(selectLogin);
   const dispatch = useAppDispatch();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const email = useRef<any>(null);
+  const password = useRef<any>(null);
 
-  if(currentState === LoginState.success ){
-    navigate("/orders", { replace: true });
-  } 
+  useEffect(()=>{
 
+    switch(currentState){
+      case LoginState.inProgress:
+        /* Loading Action */
+        break;
+      case LoginState.success:
+        navigate("/orders", { replace: true });
+        break;
+      case LoginState.fails:
+        /* Fail Action */
+        break;
+    }
+
+  }, [currentState, navigate]);
   
 
   return(
@@ -29,15 +42,15 @@ export default function LoginPage(){
         </div>
         <div className={styles.emailContainer}>
           <p className={styles.inpuText}>Email</p>
-          <input className={styles.input}/>
+          <input className={styles.input} ref={email}/>
         </div>
         <div className={styles.passwordContainer}>
           <p className={styles.inputText}>Password</p>
-          <input type="password" className={styles.input}/>
+          <input type="password" className={styles.input} ref={password}/>
         </div>
         <div className={styles.buttonContainer}>
             <button className={styles.button} onClick={()=> {
-              dispatch(loginUser({email : 'eco.villaraza19@gmail.com', password: '09084741500Eco'}));
+              dispatch(loginUser({email : email.current.value, password:  password.current.value}));
             }}>Login</button>
         </div>
       </div>
