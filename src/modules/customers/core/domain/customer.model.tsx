@@ -1,6 +1,8 @@
 export interface CustomerModel {
 
+    /* MongoDB default objectId */
     _id: string;
+
     email: string;
 
     firstName: string;

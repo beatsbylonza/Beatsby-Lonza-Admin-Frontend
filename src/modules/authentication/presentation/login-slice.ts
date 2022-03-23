@@ -1,27 +1,50 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../config/store';
+import { LoginProps } from '../core/props/authentication.props';
+import LoginUserUsecase from '../core/usecases/login-user.usecase';
+import { LoginRepositoryResponse } from '../data/repository/authentication-repository';
 
-const initialState = {};
+export enum LoginState {
+  initial,
+  inProgress,
+  success,
+  fails,
+}
+const initialState  = {
+  status: LoginState.initial
+};
+
+
+export const loginUser = createAsyncThunk(
+  'counter/fetchCount',
+  async (loginProps: LoginProps) => {
+    
+    const response : LoginRepositoryResponse  = await LoginUserUsecase({
+      email: loginProps.email,
+      password: loginProps.password,
+    });
+    
+    return response.data;
+  }
+);
 
 export const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-      loginInProgress: (state) =>{
-
-      },
-      loginSuccess: (state) =>{
-
-      },
-      loginFails: (state) =>{
-
-      },
     },
-
+    extraReducers: (builder : any) => {
+      builder
+        .addCase(loginUser.pending, (state : any, action : any) => {
+          state.status = LoginState.inProgress;
+        })
+        .addCase(loginUser.fulfilled, (state : any, action : any) => {
+          state.status = LoginState.success;
+        });
+    },
 });
 
-export const { loginInProgress, loginSuccess, loginFails } = loginSlice.actions;
+export const selectLogin = (state: RootState) => state.login.status;
 
 export default loginSlice.reducer;
 
-export const selectLogin = (state: RootState) => state;

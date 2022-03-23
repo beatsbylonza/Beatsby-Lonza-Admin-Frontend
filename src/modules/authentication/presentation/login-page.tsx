@@ -1,18 +1,24 @@
 import styles from './login-page.module.css';
-import {
-  Link
-} from 'react-router-dom';
 import logo from '../../../assets/image/logo.png';
 
 import { useAppSelector, useAppDispatch } from '../../config/hooks';
-import { selectLogin } from './login-slice';
+import { LoginState, loginUser, selectLogin, } from './login-slice';
+import { useNavigate  } from "react-router-dom";
+
 
 
 /* Login Page Module */
 export default function LoginPage(){
   
-  const loginState = useAppSelector(selectLogin);
+  const currentState  = useAppSelector(selectLogin);
   const dispatch = useAppDispatch();
+  let navigate = useNavigate();
+
+  if(currentState === LoginState.success ){
+    navigate("/orders", { replace: true });
+  } 
+
+  
 
   return(
     <div className={styles.container}>
@@ -29,11 +35,11 @@ export default function LoginPage(){
           <p className={styles.inputText}>Password</p>
           <input type="password" className={styles.input}/>
         </div>
-        <Link to="/orders" className={styles.btnCont}>
-          <div className={styles.buttonContainer}>
-              <button className={styles.button}>Login</button>
-          </div>
-        </Link>
+        <div className={styles.buttonContainer}>
+            <button className={styles.button} onClick={()=> {
+              dispatch(loginUser({email : 'eco.villaraza19@gmail.com', password: '09084741500Eco'}));
+            }}>Login</button>
+        </div>
       </div>
       <div className={styles.rightSideContainer}>
         <div className={styles.iamgeContainer}>

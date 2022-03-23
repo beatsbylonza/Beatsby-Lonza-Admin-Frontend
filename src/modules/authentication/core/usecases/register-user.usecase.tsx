@@ -1,14 +1,7 @@
-import { UseCase } from "../base/use-case";
-import { UserModel } from "../domain/user.model";
-import { AuthenticationRepository } from "../repositories/authentication.repository";
-
-export default class RegisterUseCase implements UseCase<UserModel, void>{
-    
-    constructor(private authenticationRepository: AuthenticationRepository ){}
+import { RegisterRepositoryResponse, RegisterUserRepository } from "../../data/repository/authentication-repository";
+import { RegisterProps } from "../props/authentication.props";
 
 
-    execute(params: UserModel): void {
-        this.authenticationRepository.registerUser(params);
-    }
-
+export default function RegisterUserUsecase(props: RegisterProps ) : Promise<RegisterRepositoryResponse> { 
+    return RegisterUserRepository(props);
 }
