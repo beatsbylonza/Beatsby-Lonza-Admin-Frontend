@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from '../../config/hooks';
 import { LoginState, loginUser, selectLogin, } from './login-slice';
 import { useNavigate  } from "react-router-dom";
 import { useEffect, useRef } from 'react';
+import { Button } from '@mui/material';
 
 
 
@@ -19,9 +20,6 @@ export default function LoginPage(){
   useEffect(()=>{
 
     switch(currentState){
-      case LoginState.inProgress:
-        /* Loading Action */
-        break;
       case LoginState.success:
         navigate("/orders", { replace: true });
         break;

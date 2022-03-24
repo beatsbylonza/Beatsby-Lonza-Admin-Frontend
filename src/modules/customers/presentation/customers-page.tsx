@@ -7,6 +7,7 @@ import { customers } from '../../shared/fixtures/data-fixture';
 import { useState, useEffect } from 'react';
 import styles from './customers-page.module.css';
 import { CustomerModel } from '../core/domain/customer.model';
+import Logout from '../../shared/components/logout';
 
 export default function CustomersPage() {
   const [currentCustomers, setCurrentCustomers] = useState<Array<CustomerModel>>([]);
@@ -106,13 +107,7 @@ export default function CustomersPage() {
                 Customers
             </div>
           </Link>
-          <Link to="/">
-            <div className={styles.logoutContainer}>
-                <div className={styles.logout}>
-                    LOGOUT
-                </div>
-            </div>
-          </Link>
+          <Logout />
         </div>
         <div className={styles.contentContainer}>
   

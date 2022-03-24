@@ -7,6 +7,7 @@ import { orders } from '../../shared/fixtures/data-fixture';
 import logo from '../../../assets/image/logo.png';
 import { useState, useEffect } from 'react';
 import { OrderModel } from '../core/domain/order.model';
+import Logout from '../../shared/components/logout';
 
 export default function OrdersPage() {
 
@@ -101,13 +102,7 @@ export default function OrdersPage() {
                 Customers
             </div>
           </Link>
-          <Link to="/">
-            <div className={styles.logoutContainer}>
-                <div className={styles.logout}>
-                    LOGOUT
-                </div>
-            </div>
-          </Link>
+          <Logout />
         </div>
         <div className={styles.contentContainer}>
   

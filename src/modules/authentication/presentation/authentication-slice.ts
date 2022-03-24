@@ -11,7 +11,6 @@ export enum AuthenticationState{
 }
 
 /* Authentication State Interface */
-
 const initialState : {
     status: AuthenticationState,
     user?: UserModel,
@@ -20,13 +19,15 @@ const initialState : {
 }
 
 /* Main Slice */
-
 export const authenticationSlice = createSlice({
     name:'authentication',
     initialState,
     reducers : {
+        authenticationInitial : (state) => {
+            state.status = AuthenticationState.initial;
+            state.user = undefined;
+        },
         authenticationInProgress : (state) => {
-            
             state.status = AuthenticationState.inProgress;
         },
         authenticationSuccess : (state, action:  PayloadAction<UserModel>) => {
@@ -39,7 +40,7 @@ export const authenticationSlice = createSlice({
     },
 });
 
-export const { authenticationInProgress, authenticationSuccess, authenticationFails } = authenticationSlice.actions;
-export const selectAuthentication = (state : RootState) => state;
+export const { authenticationInProgress, authenticationSuccess, authenticationFails, authenticationInitial } = authenticationSlice.actions;
+export const selectAuthentication = (state : RootState) => state.authentication;
 
 export default authenticationSlice.reducer;

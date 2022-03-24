@@ -8,6 +8,7 @@ export const store = configureStore({
     login : loginReducer,
     authentication : authenticationReducer
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export type AppDispatch = typeof store.dispatch;

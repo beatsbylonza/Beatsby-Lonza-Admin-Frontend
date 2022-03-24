@@ -7,6 +7,7 @@ import { products } from '../../shared/fixtures/data-fixture';
 import { useState, useEffect } from 'react';
 import logo from '../../../assets/image/logo.png';
 import { ProductModel } from '../core/domain/product.model';
+import Logout from '../../shared/components/logout';
 
 /* Login Page Module */
 export default function ProductsPage(){
@@ -91,13 +92,7 @@ export default function ProductsPage(){
                 Customers
             </div>
           </Link>
-          <Link to="/">
-            <div className={styles.logoutContainer}>
-                <div className={styles.logout}>
-                    LOGOUT
-                </div>
-            </div>
-          </Link>
+          <Logout />
         </div>
         <div className={styles.contentContainer}>
   
