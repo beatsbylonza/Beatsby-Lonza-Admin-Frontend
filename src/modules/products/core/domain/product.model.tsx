@@ -7,7 +7,6 @@ export interface ProductModel {
     picture: string,
     price: number,
     size: Array<string>,
-    style: Array<string>,
     sales: number,
     status: string,
 }
