@@ -406,7 +406,7 @@ export const products = [
 
 export const customers = [
     {
-        userID: 'User-000001',
+        _id: 'User-000001',
         dateCreated: '21 May 2021',
         firstName: 'Jane',
         middleName: 'Michel',
@@ -419,7 +419,7 @@ export const customers = [
         contactNumber: '743-2161',
     },
     {
-        userID: 'User-000002',
+        _id: 'User-000002',
         dateCreated: '22 May 2021',
         firstName: 'Michael',
         middleName: 'Adams',
@@ -432,7 +432,7 @@ export const customers = [
         contactNumber: '539-4246',
     },
     {
-        userID: 'User-000003',
+        _id: 'User-000003',
         dateCreated: '22 May 2021',
         firstName: 'Betty',
         middleName: 'Sons',
@@ -445,7 +445,7 @@ export const customers = [
         contactNumber: '466-8690',
     },
     {
-        userID: 'User-000004',
+        _id: 'User-000004',
         dateCreated: '23 May 2021',
         firstName: 'Sally',
         middleName: 'Nore',
@@ -458,7 +458,7 @@ export const customers = [
         contactNumber: '244-1898',
     },
     {
-        userID: 'User-000005',
+        _id: 'User-000005',
         dateCreated: '23 May 2021',
         firstName: 'Neil',
         middleName: 'Penny',
@@ -471,7 +471,7 @@ export const customers = [
         contactNumber: '428-1552',
     },
     {
-        userID: 'User-000006',
+        _id: 'User-000006',
         dateCreated: '24 May 2021',
         firstName: 'Patrick',
         middleName: 'Son',
@@ -484,7 +484,7 @@ export const customers = [
         contactNumber: '645-4468',
     },
     {
-        userID: 'User-000007',
+        _id: 'User-000007',
         dateCreated: '24 May 2021',
         firstName: 'Melly',
         middleName: 'Rita',
@@ -497,7 +497,7 @@ export const customers = [
         contactNumber: '845-9822',
     },
     {
-        userID: 'User-000008',
+        _id: 'User-000008',
         dateCreated: '24 May 2021',
         firstName: 'Molly',
         middleName: 'Quero',
@@ -510,7 +510,7 @@ export const customers = [
         contactNumber: '479-2143',
     },
     {
-        userID: 'User-000009',
+        _id: 'User-000009',
         dateCreated: '25 May 2021',
         firstName: 'Kelly',
         middleName: 'Mori',
@@ -523,7 +523,7 @@ export const customers = [
         contactNumber: '795-5014',
     },
     {
-        userID: 'User-000010',
+        _id: 'User-000010',
         dateCreated: '25 May 2021',
         firstName: 'Trisha',
         middleName: 'Kyle',
@@ -536,7 +536,7 @@ export const customers = [
         contactNumber: '245-0841',
     },
     {
-        userID: 'User-000011',
+        _id: 'User-000011',
         dateCreated: '25 May 2021',
         firstName: 'Joshua',
         middleName: 'Martins',
@@ -549,7 +549,7 @@ export const customers = [
         contactNumber: '828-3829',
     },
     {
-        userID: 'User-000012',
+        _id: 'User-000012',
         dateCreated: '25 May 2021',
         firstName: 'Lily',
         middleName: 'Xori',
@@ -562,7 +562,7 @@ export const customers = [
         contactNumber: '793-7890',
     },
     {
-        userID: 'User-000013',
+        _id: 'User-000013',
         dateCreated: '26 May 2021',
         firstName: 'Katy',
         middleName: 'Sera',
@@ -575,7 +575,7 @@ export const customers = [
         contactNumber: '429-9783',
     },
     {
-        userID: 'User-000014',
+        _id: 'User-000014',
         dateCreated: '26 May 2021',
         firstName: 'Sara',
         middleName: 'Vera',
@@ -588,7 +588,7 @@ export const customers = [
         contactNumber: '604-8922',
     },
     {
-        userID: 'User-000015',
+        _id: 'User-000015',
         dateCreated: '27 May 2021',
         firstName: 'Felix',
         middleName: 'Dan',
@@ -601,7 +601,7 @@ export const customers = [
         contactNumber: '977-8348',
     },
     {
-        userID: 'User-000016',
+        _id: 'User-000016',
         dateCreated: '27 May 2021',
         firstName: 'Remi',
         middleName: 'Kirt',
@@ -614,7 +614,7 @@ export const customers = [
         contactNumber: '263-9367',
     },
     {
-        userID: 'User-000017',
+        _id: 'User-000017',
         dateCreated: '28 May 2021',
         firstName: 'Nora',
         middleName: 'Vell',
@@ -627,7 +627,7 @@ export const customers = [
         contactNumber: '582-1433',
     },
     {
-        userID: 'User-000018',
+        _id: 'User-000018',
         dateCreated: '28 May 2021',
         firstName: 'Roni',
         middleName: 'Quint',
@@ -640,7 +640,7 @@ export const customers = [
         contactNumber: '251-1440',
     },
     {
-        userID: 'User-000019',
+        _id: 'User-000019',
         dateCreated: '29 May 2021',
         firstName: 'Sean',
         middleName: 'Yoli',
@@ -653,7 +653,7 @@ export const customers = [
         contactNumber: '869-3591',
     },
     {
-        userID: 'User-000020',
+        _id: 'User-000020',
         dateCreated: '29 May 2021',
         firstName: 'Candy',
         middleName: 'Lane',
