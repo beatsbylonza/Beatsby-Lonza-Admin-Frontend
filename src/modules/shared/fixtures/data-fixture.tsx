@@ -281,7 +281,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FEL-HJEFE-and-Switching-Lanes-Stickers.png?alt=media&token=4c4a0a79-8734-463d-a042-c10026ec677d',
         price: 1.5,
         size: [],
-        style: [],
         sales: 7,
         status: 'available',
     },
@@ -294,7 +293,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FBeatsby%20Lonza%20Hoodie.png?alt=media&token=c98b54ff-1c14-4bdd-bc2c-88255a629615',
         price: 28,
         size: ["S", "M", "L", "XL"],
-        style: [],
         sales: 13,
         status: 'not available',
     },
@@ -307,7 +305,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FEL-HJEFE-Mask.png?alt=media&token=7df532e2-369d-424c-b5d4-eae09510e201',
         price: 8,
         size: [],
-        style: [],
         sales: 12,
         status: 'available',
     },
@@ -320,7 +317,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FEl%20Hjefe%20Socks.jpg?alt=media&token=ca452c44-f9ef-462a-883b-45f84cf84ddb',
         price: 12,
         size: [9, 10, 11, 12],
-        style: [],
         sales: 9,
         status: 'available',
     },
@@ -333,7 +329,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FEL-HJEFE-Boss-Cigar-Box.png?alt=media&token=671ee72a-dfc8-44de-98fb-ab57771febfe',
         price: 25,
         size: [],
-        style: [],
         sales: 2,
         status: 'available',
     },
@@ -346,7 +341,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FEL-HJEFE-Black-Tee.png?alt=media&token=05bcf71b-6936-4e39-9776-977d7ac51163',
         price: 25,
         size: [],
-        style: [],
         sales: 6,
         status: 'available',
     },
@@ -359,7 +353,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FSwitching-Lanes-Snapback.png?alt=media&token=a585fd96-ce22-4930-9ef7-62052f60314c',
         price: 25,
         size: [],
-        style: [],
         sales: 7,
         status: 'not available',
     },
@@ -372,7 +365,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FEL%20HJEFE%20SLIDES.png?alt=media&token=97df009c-41ec-41f1-814d-8d45af27e65b',
         price: 25,
         size: [9, 10, 11, 12],
-        style: [],
         sales: 10,
         status: 'not available',
     },
@@ -385,7 +377,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FSwitching-Lanes-Tshirt.png?alt=media&token=5edb4957-3acd-4c28-a4ec-992f473a1bd8',
         price: 30,
         size: [],
-        style: [],
         sales: 5,
         status: 'not available',
     },
@@ -398,7 +389,6 @@ export const products = [
         picture: 'https://firebasestorage.googleapis.com/v0/b/lonza-da8e4.appspot.com/o/pictures%2FEL-HJEFE-Mixtape-Tshirt.png?alt=media&token=c3ca1b89-887b-4498-a1a6-1b38a59fae63',
         price: 30,
         size: [],
-        style: [],
         sales: 1,
         status: 'available',
     },
@@ -406,7 +396,7 @@ export const products = [
 
 export const customers = [
     {
-        userID: 'User-000001',
+        _id: 'User-000001',
         dateCreated: '21 May 2021',
         firstName: 'Jane',
         middleName: 'Michel',
@@ -419,7 +409,7 @@ export const customers = [
         contactNumber: '743-2161',
     },
     {
-        userID: 'User-000002',
+        _id: 'User-000002',
         dateCreated: '22 May 2021',
         firstName: 'Michael',
         middleName: 'Adams',
@@ -432,7 +422,7 @@ export const customers = [
         contactNumber: '539-4246',
     },
     {
-        userID: 'User-000003',
+        _id: 'User-000003',
         dateCreated: '22 May 2021',
         firstName: 'Betty',
         middleName: 'Sons',
@@ -445,7 +435,7 @@ export const customers = [
         contactNumber: '466-8690',
     },
     {
-        userID: 'User-000004',
+        _id: 'User-000004',
         dateCreated: '23 May 2021',
         firstName: 'Sally',
         middleName: 'Nore',
@@ -458,7 +448,7 @@ export const customers = [
         contactNumber: '244-1898',
     },
     {
-        userID: 'User-000005',
+        _id: 'User-000005',
         dateCreated: '23 May 2021',
         firstName: 'Neil',
         middleName: 'Penny',
@@ -471,7 +461,7 @@ export const customers = [
         contactNumber: '428-1552',
     },
     {
-        userID: 'User-000006',
+        _id: 'User-000006',
         dateCreated: '24 May 2021',
         firstName: 'Patrick',
         middleName: 'Son',
@@ -484,7 +474,7 @@ export const customers = [
         contactNumber: '645-4468',
     },
     {
-        userID: 'User-000007',
+        _id: 'User-000007',
         dateCreated: '24 May 2021',
         firstName: 'Melly',
         middleName: 'Rita',
@@ -497,7 +487,7 @@ export const customers = [
         contactNumber: '845-9822',
     },
     {
-        userID: 'User-000008',
+        _id: 'User-000008',
         dateCreated: '24 May 2021',
         firstName: 'Molly',
         middleName: 'Quero',
@@ -510,7 +500,7 @@ export const customers = [
         contactNumber: '479-2143',
     },
     {
-        userID: 'User-000009',
+        _id: 'User-000009',
         dateCreated: '25 May 2021',
         firstName: 'Kelly',
         middleName: 'Mori',
@@ -523,7 +513,7 @@ export const customers = [
         contactNumber: '795-5014',
     },
     {
-        userID: 'User-000010',
+        _id: 'User-000010',
         dateCreated: '25 May 2021',
         firstName: 'Trisha',
         middleName: 'Kyle',
@@ -536,7 +526,7 @@ export const customers = [
         contactNumber: '245-0841',
     },
     {
-        userID: 'User-000011',
+        _id: 'User-000011',
         dateCreated: '25 May 2021',
         firstName: 'Joshua',
         middleName: 'Martins',
@@ -549,7 +539,7 @@ export const customers = [
         contactNumber: '828-3829',
     },
     {
-        userID: 'User-000012',
+        _id: 'User-000012',
         dateCreated: '25 May 2021',
         firstName: 'Lily',
         middleName: 'Xori',
@@ -562,7 +552,7 @@ export const customers = [
         contactNumber: '793-7890',
     },
     {
-        userID: 'User-000013',
+        _id: 'User-000013',
         dateCreated: '26 May 2021',
         firstName: 'Katy',
         middleName: 'Sera',
@@ -575,7 +565,7 @@ export const customers = [
         contactNumber: '429-9783',
     },
     {
-        userID: 'User-000014',
+        _id: 'User-000014',
         dateCreated: '26 May 2021',
         firstName: 'Sara',
         middleName: 'Vera',
@@ -588,7 +578,7 @@ export const customers = [
         contactNumber: '604-8922',
     },
     {
-        userID: 'User-000015',
+        _id: 'User-000015',
         dateCreated: '27 May 2021',
         firstName: 'Felix',
         middleName: 'Dan',
@@ -601,7 +591,7 @@ export const customers = [
         contactNumber: '977-8348',
     },
     {
-        userID: 'User-000016',
+        _id: 'User-000016',
         dateCreated: '27 May 2021',
         firstName: 'Remi',
         middleName: 'Kirt',
@@ -614,7 +604,7 @@ export const customers = [
         contactNumber: '263-9367',
     },
     {
-        userID: 'User-000017',
+        _id: 'User-000017',
         dateCreated: '28 May 2021',
         firstName: 'Nora',
         middleName: 'Vell',
@@ -627,7 +617,7 @@ export const customers = [
         contactNumber: '582-1433',
     },
     {
-        userID: 'User-000018',
+        _id: 'User-000018',
         dateCreated: '28 May 2021',
         firstName: 'Roni',
         middleName: 'Quint',
@@ -640,7 +630,7 @@ export const customers = [
         contactNumber: '251-1440',
     },
     {
-        userID: 'User-000019',
+        _id: 'User-000019',
         dateCreated: '29 May 2021',
         firstName: 'Sean',
         middleName: 'Yoli',
@@ -653,7 +643,7 @@ export const customers = [
         contactNumber: '869-3591',
     },
     {
-        userID: 'User-000020',
+        _id: 'User-000020',
         dateCreated: '29 May 2021',
         firstName: 'Candy',
         middleName: 'Lane',

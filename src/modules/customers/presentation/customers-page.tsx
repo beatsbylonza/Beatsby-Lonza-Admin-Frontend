@@ -12,7 +12,7 @@ import Logout from '../../shared/components/logout';
 export default function CustomersPage() {
   const [currentCustomers, setCurrentCustomers] = useState<Array<CustomerModel>>([]);
   const [sortedCustomers, setSortedCustomers] = useState<Array<CustomerModel>>([]);
-  const [sort, setSort] = useState('date');
+  const [sort, setSort] = useState('name');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState('');

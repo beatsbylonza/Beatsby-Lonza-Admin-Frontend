@@ -1,4 +1,4 @@
-import styles from './product-page.module.css';
+import styles from './products-page.module.css';
 import {
   Link
 } from 'react-router-dom';
@@ -102,13 +102,13 @@ export default function ProductsPage(){
             </div>
   
             <div className={styles.buttonContainer}>
-  
                 <input className={styles.search} placeholder='🔎︎ Search' value={searchValue} onChange={(event)=> search(event.target.value.toLowerCase())}/>
-  
-  
               <div className={styles.deleteContainer}>
                 Delete
               </div>
+              <Link className={styles.addProductContainer} to={'add'}>
+                Add Product
+              </Link>
             </div>
           </div>
   
@@ -127,16 +127,16 @@ export default function ProductsPage(){
              if(index < 7){
               return(
                 <div className={styles.gridContainer} key={index}>
-                  <div className={styles.item}><input type="checkbox" id={product.id} name={product.id} value={product.id} /></div>
-                  <div className={styles.itemImageContainer}>
+                  <div className={`${styles.item} ${styles.checkBox}`}><input type="checkbox" id={product.id} name={product.id} value={product.id} /></div>
+                  <Link className={styles.itemImageContainer} to={`/product/${product.id}`}>
                     <img className={styles.itemImage} alt={product.picture} src={product.picture}/>
-                  </div> 
-                  <div className={styles.item}>{product.name}</div>
-                  <div className={styles.item}>{product.id}</div>
-                  <div className={styles.item}>{product.category}</div>
-                  <div className={styles.item}>{product.price}</div>
-                  <div className={styles.item}>{product.sales}</div>
-                  <div className={styles.item}>{product.status}</div>
+                  </Link> 
+                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.name}</Link>
+                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.id}</Link>
+                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.category}</Link>
+                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.price}</Link>
+                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.sales}</Link>
+                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.status}</Link>
                 </div>
               )
              }else{
