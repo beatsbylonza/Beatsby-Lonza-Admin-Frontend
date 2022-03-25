@@ -27,7 +27,7 @@ export default function PrivateRouteWrapper (props : { index ?: boolean}) {
     if(auth){
       
       const decodedToken : UserModel = jwt_decode(auth);
-      dispatch(authenticationSuccess(decodedToken));
+      dispatch(authenticationSuccess({ user : decodedToken, token: auth}));
       
       /* Authentication Success approve route! */
       return props.index ? <Navigate to={'/orders'}/> : <StackedOutlet /> ;

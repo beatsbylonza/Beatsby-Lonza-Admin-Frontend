@@ -14,6 +14,7 @@ export enum AuthenticationState{
 const initialState : {
     status: AuthenticationState,
     user?: UserModel,
+    token?: string,
 } = {
     status: AuthenticationState.initial,
 }
@@ -30,8 +31,9 @@ export const authenticationSlice = createSlice({
         authenticationInProgress : (state) => {
             state.status = AuthenticationState.inProgress;
         },
-        authenticationSuccess : (state, action:  PayloadAction<UserModel>) => {
-            state.user = action.payload;
+        authenticationSuccess : (state, action:  PayloadAction<{ user : UserModel, token : string}>) => {
+            state.user = action.payload.user;
+            state.token = action.payload.token;
             state.status = AuthenticationState.success;
         },
         authenticationFails : (state) => {

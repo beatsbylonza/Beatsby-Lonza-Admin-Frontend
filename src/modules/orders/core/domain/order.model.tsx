@@ -1,10 +1,11 @@
 export interface OrderModel{
     _id: string;
-    date: string;
-    productID: string;
-    orderID: string;
-    customerID: string;
+    productId: string;
+    customerId: string;
     quantity: number;
-    address: string;
+    deliveryAddress: string;
     status: string;
+
+    /* Date */
+    createdAt: string;
 }

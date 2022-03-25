@@ -2,11 +2,13 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
 import loginReducer from '../authentication/presentation/login-slice';
 import authenticationReducer from '../authentication/presentation/authentication-slice';
+import getAllOrdersReducer from '../orders/presentation/get-all-orders-slice';
 
 export const store = configureStore({
   reducer: {
     login : loginReducer,
-    authentication : authenticationReducer
+    authentication : authenticationReducer,
+    getAllOrders: getAllOrdersReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

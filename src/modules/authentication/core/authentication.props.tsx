@@ -1,4 +1,4 @@
-import UserModel from "../domain/user.model";
+import UserModel from "./domain/user.model";
 
 export interface LoginProps {
     email: string;

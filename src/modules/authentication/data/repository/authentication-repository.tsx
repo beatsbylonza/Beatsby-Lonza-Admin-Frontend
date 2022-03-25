@@ -1,9 +1,8 @@
 import axios from "axios";
 import UserModel from "../../core/domain/user.model";
-import { LoginProps, RegisterProps } from "../../core/props/authentication.props";
+import { LoginProps, RegisterProps } from "../../core/authentication.props";
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL;
-
 
 export interface LoginRepositoryResponse{
     data: {

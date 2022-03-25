@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../config/store';
 import { AUTH_LOCAL_STORAGE_KEY } from '../../shared/constants';
 import UserModel from '../core/domain/user.model';
-import { LoginProps } from '../core/props/authentication.props';
+import { LoginProps } from '../core/authentication.props';
 import LoginUserUsecase from '../core/usecases/login-user.usecase';
 import { LoginRepositoryResponse } from '../data/repository/authentication-repository';
 
@@ -16,13 +16,9 @@ const initialState  : any = {};
 
 
 export const loginUser = createAsyncThunk(
-  'counter/fetchCount',
+  'loginUser',
   async (loginProps: LoginProps) => {
-    
-    const response : LoginRepositoryResponse  = await LoginUserUsecase({
-      email: loginProps.email,
-      password: loginProps.password,
-    });
+    const response : LoginRepositoryResponse  = await LoginUserUsecase(loginProps);
     
     return response.data;
   }

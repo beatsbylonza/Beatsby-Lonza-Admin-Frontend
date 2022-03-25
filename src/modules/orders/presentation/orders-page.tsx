@@ -2,30 +2,46 @@ import styles from './orders-page.module.css';
 import {
   Link
 } from 'react-router-dom';
-import { orders } from '../../shared/fixtures/data-fixture';
 
 import logo from '../../../assets/image/logo.png';
 import { useState, useEffect } from 'react';
 import { OrderModel } from '../core/domain/order.model';
 import Logout from '../../shared/components/logout';
+import { useAppDispatch, useAppSelector } from '../../config/hooks';
+import { getAllOrders, GetAllOrdersState, selectGetAllOrders } from './get-all-orders-slice';
+import { selectAuthentication } from '../../authentication/presentation/authentication-slice';
 
 export default function OrdersPage() {
 
   const [currentOrders, setCurrentOrders] = useState<Array<OrderModel>>([]);
   const [sortedOrders, setSortedOrders] = useState<Array<OrderModel>>([]);
+
   const [sort, setSort] = useState('date');
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+
   const [searchValue, setSearchValue] = useState('');
 
+  const getAllOrdersState  = useAppSelector(selectGetAllOrders);
+  const authenticationState  = useAppSelector(selectAuthentication);
+
+  const dispatch = useAppDispatch();
+
   useEffect(()=>{
-    const tempOrders : any = orders.sort((a : any, b : any) =>
-      a.date > b.date ? 1 : b.date > a.date ? -1 : 0
-    )
-    setSortedOrders(tempOrders);
-    setCurrentOrders(tempOrders);
-    setLoading(false);
-  },[])
+    if(authenticationState.token){
+      /** Get All Orders fetch */
+      dispatch(getAllOrders({token: authenticationState.token}));
+    }
+  },[ authenticationState, dispatch ]);
+
+  useEffect(()=>{
+    switch(getAllOrdersState.status){
+
+      case GetAllOrdersState.success:
+        setCurrentOrders(getAllOrdersState.data);
+        break;
+
+    }
+  },[ getAllOrdersState ]);
 
   const sortFunction = (type : string) => {
     setSort(type)
@@ -44,18 +60,22 @@ export default function OrdersPage() {
 
   const forward = () =>{
     if(searchValue === ''){
-      if(page < Math.ceil(orders.length / 7)){
+      if(page < Math.ceil(getAllOrdersState.data.length / 7)){
+
         setCurrentOrders(()=>{
           return sortedOrders.slice((page)* 7, (page+1) *7)
-        })
+        });
+
         setPage(prev => prev+1);
         setSearchValue('');
       }
     }else{
-      if(page < Math.ceil(currentOrders.length / 7)){
+      if(page < Math.ceil(getAllOrdersState.data.length / 7)){
+
         setCurrentOrders(()=>{
           return sortedOrders.slice((page)* 7, (page+1) *7)
-        })
+        });
+
         setPage(prev => prev+1);
         setSearchValue('');
       }
@@ -68,7 +88,7 @@ export default function OrdersPage() {
     setCurrentOrders(() => {
       const tempOrders = sortedOrders.filter((order) => {
 
-        if (order.date.toLowerCase().includes(value, 0) || order.productID.toLowerCase().includes(value, 0) || order.orderID.toLowerCase().includes(value, 0) || order.customerID.toLowerCase().includes(value, 0) || order.address.toLowerCase().includes(value, 0) || order.status.toLowerCase().includes(value, 0)) {
+        if (order.createdAt.toLowerCase().includes(value, 0) || order.productId.toLowerCase().includes(value, 0) || order._id.toLowerCase().includes(value, 0) || order.customerId.toLowerCase().includes(value, 0) || order.deliveryAddress.toLowerCase().includes(value, 0) || order.status.toLowerCase().includes(value, 0)) {
           return order;
         }else{
           return null
@@ -78,9 +98,6 @@ export default function OrdersPage() {
     });
   }
 
-  if(loading){
-    return <div>Loading</div>
-  }else{
     return (
       <div className={styles.container}>
         <div className={styles.leftNavigation}>
@@ -132,19 +149,20 @@ export default function OrdersPage() {
               <div className={styles.itemHeader} onClick={()=>{sortFunction('address')}}>Address  {sort === 'address' ? <span>▼</span> : <span>►</span>}</div>
               <div className={styles.itemHeader} onClick={()=>{sortFunction('status')}}>Status  {sort === 'status' ? <span>▼</span> : <span>►</span>}</div>
           </div>
-        
+
           {
-            currentOrders.map((order, index)=>{
+             currentOrders.map((order, index)=>{
+               
               if(index < 7){
                 return(
                   <div className={styles.gridContainer} key={index}>
                     <div className={styles.item}><input type="checkbox" id={order._id} name={order._id} value={order._id} /></div>
-                    <div className={styles.item}>{order.date}</div>
-                    <div className={styles.item}>{order.productID}</div>
-                    <div className={styles.item}>{order.orderID}</div>
-                    <div className={styles.item}>{order.customerID}</div>
+                    <div className={styles.item}>{order.createdAt}</div>
+                    <div className={styles.item}>{order.productId}</div>
+                    <div className={styles.item}>{order._id}</div>
+                    <div className={styles.item}>{order.customerId}</div>
                     <div className={styles.item}>{order.quantity}</div>
-                    <div className={styles.item}>{order.address}</div>
+                    <div className={styles.item}>{order.deliveryAddress}</div>
                     <div className={styles.item}>{order.status}</div>
                   </div>
                 )
@@ -167,5 +185,4 @@ export default function OrdersPage() {
         </div>
       </div>
     );
-  }
 }
