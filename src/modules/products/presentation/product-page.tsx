@@ -1,83 +1,50 @@
-import styles from './product-page.module.css';
+
 import {
   Link
 } from 'react-router-dom';
 
-import logo from '../../../assets/image/logo.png';
+import SideBarNav from '../../shared/components/sidebar-nav';
 
 /* Login Page Module */
 export default function ProductPage(){
 
     return (
-      <div className={styles.container}>
-        <div className={styles.leftNavigation}>
-          <div className={styles.imageContainer}>
-            <img alt="logo" src={logo} className={styles.image}/>
-          </div>
-          <Link to="/orders">
-            <div className={styles.tabContainer}>
-                Orders
-            </div>
-          </Link>
-          <Link to="/products">
-            <div className={`${styles.tabContainer} ${styles.active}`}>
-                Products
-            </div>
-          </Link>
-          <Link to="/customers">
-            <div className={styles.tabContainer}>
-                Customers
-            </div>
-          </Link>
-          <Link to="/">
-            <div className={styles.logoutContainer}>
-                <div className={styles.logout}>
-                    LOGOUT
-                </div>
-            </div>
-          </Link>
-        </div>
+      <section className='h-screen space-x-2 flex'>
 
-        <div className={styles.contentContainer}>
+      <SideBarNav></SideBarNav>
 
-          <div className={styles.headingContainer}>
-              <div className={styles.titleContainer}>
-                {`Product > Add Product`}
-              </div>
+      <section className='h-full flex flex-col container mx-auto px-4 py-4'>
+
+        <section className='space-y-2 mb-4'>
+          
+          <div className='text-[2rem] font-bold'>
+            Products
           </div>
 
-          <div className={styles.mainContentContainer}>
-            <div className={styles.mainContentLeft}>
-              <div className={styles.nameContainer}>
+          <div className='flex space-x-6'>
+            
+            <input className='border border-black rounded-full py-2 px-4' placeholder='🔎︎ Search' />
 
-              </div>
-              <div className={styles.categoryContainer}>
-
-              </div>
-              <div className={styles.descriptionContainer}>
-
-              </div>
+            <div className='flex items-center justify-center px-6 border border-black rounded-full cursor-pointer '>
+              Delete
             </div>
 
-            <div className={styles.mainContentRight}>
-              <div className={styles.productImageContainer}>
-
-              </div>
-              <div className={styles.priceContainer}>
-
-              </div>
-              <div className={styles.sizeAndColorContainer}>
-                <div className={styles.sizeContainer}>
-
-                </div>
-                <div className={styles.colorContainer}>
-
-                </div>
-              </div>
-            </div>
-
+            <Link className='flex items-center justify-center px-6 bg-[#6792cd] text-white rounded-full cursor-pointer' to={'add'}>
+              Add Product
+            </Link>
+            
           </div>
-        </div>
-      </div>
+
+        </section>
+
+        
+        <section className='flex-1' >
+          
+        </section>
+    
+      </section>
+
+
+    </section>
     );
 }

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -17,7 +17,6 @@ function App() {
   
   return (
      <Router>
-          <div>
             <Routes>
               <Route element={<PrivateRouteWrapper index />}>
                 <Route path='/' element={<LoginPage />}></Route>
@@ -35,7 +34,6 @@ function App() {
                 <Route path='products/:id' element={<Product />}></Route>
               </Route>
             </Routes>
-          </div>
       </Router>
   );
 }

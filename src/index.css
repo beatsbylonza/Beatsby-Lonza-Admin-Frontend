@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +14,26 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+
+.tab-container {
+  color: white;
+  background-color: #6792cd;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 2.3rem;
+  height: 6vh;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.tab-container:hover {
+  background-color: #4e6b94;
+}
+
+.link-active {
+  border-left: solid 5px white;
 }

@@ -3,156 +3,114 @@ import {
   Link
 } from 'react-router-dom';
 
-import { products } from '../../shared/fixtures/data-fixture';
-import { useState, useEffect } from 'react';
-import logo from '../../../assets/image/logo.png';
-import { ProductModel } from '../core/domain/product.model';
-import Logout from '../../shared/components/logout';
+import { useEffect } from 'react';
+import { getAllProducts, GetAllProductsState, selectGetAllProducts } from './get-all-products-slice';
+import { DataGrid } from '@mui/x-data-grid';
+import { useAppDispatch, useAppSelector } from '../../config/hooks';
+import { AuthenticationState, selectAuthentication } from '../../authentication/presentation/authentication-slice';
+import SideBarNav from '../../shared/components/sidebar-nav';
+
+/* PRODUCT TABLE HEADERS */
+const columns = [
+  { 
+    field: '_id', 
+    headerName: 'ID',
+    width: 150,
+  },
+  {
+    field: 'name',
+    headerName: 'Name',
+    width: 400,
+    editable: true,
+  },
+  {
+    field: 'price',
+    headerName: 'Price',
+    editable: true,
+  },
+  {
+    field: 'stock',
+    headerName: 'Stock',
+    type: 'number',
+    editable: true,
+  },
+  {
+    field: 'sales',
+    headerName: 'Sales',
+    type: 'number',
+  },
+  {
+    field: 'sold',
+    headerName: 'Sold',
+    type: 'number',
+  },
+  {
+    field: 'available',
+    headerName: 'Available',
+    type: 'number',
+  }
+];
+
 
 /* Login Page Module */
 export default function ProductsPage(){
-  
-  const [currentProducts, setcurrentProducts] = useState<Array<ProductModel>>([]);
-  const [sortedProducts, setSortedProducts] = useState<Array<ProductModel>>([]);
-  const [sort, setSort] = useState('name');
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [searchValue, setSearchValue] = useState('');
+  const dispatch = useAppDispatch();
+  const authorizationState = useAppSelector(selectAuthentication);
+  const getAllProductsState = useAppSelector(selectGetAllProducts);
 
   useEffect(()=>{
-    const tempProducts : any = products.sort((a : any, b : any) =>
-      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-    )
-    setSortedProducts(tempProducts);
-    setcurrentProducts(tempProducts);
-    setLoading(false);
-  },[])
-
-  const sortFunction = (type : string) => {
-    setSort(type)
-    currentProducts.sort((a : any, b : any) => a[type] > b[type] ? 1 : b[type] > a[type] ? -1 : 0)
-  }
-
-  const back = () =>{
-    if(page > 1){
-      setcurrentProducts(()=>{
-        return sortedProducts.slice((page-2)* 7, (page-1) *7)
-      })
-      setPage(prev => prev-1);
-      setSearchValue('');
+    if(authorizationState.status === AuthenticationState.success){
+      if(authorizationState.token)
+        dispatch(getAllProducts({token: authorizationState.token}));
     }
-  }
+  },[authorizationState, dispatch]);
 
-  const forward = () =>{
-    if(page < Math.ceil(products.length / 7)){
-      setcurrentProducts(()=>{
-        return sortedProducts.slice((page)* 7, (page+1) *7)
-      })
-      setPage(prev => prev+1);
-      setSearchValue('');
-    }
-  }
 
-  const search = (value : string) =>{
-    setSearchValue(value);
-    setPage(1)
-    setcurrentProducts(() => {
-      const tempProducts = sortedProducts.filter((product) => {
-        if (product.name.toLowerCase().includes(value, 0) || product.id.toLowerCase().includes(value, 0) || product.category.toLowerCase().includes(value, 0) || product.status.toLowerCase().includes(value, 0)) {
-          return product;
-        }else{
-          return null
-        }
-      });
-      return tempProducts;
-    });
-  }
+  return (
+    <section className='h-screen space-x-2 flex'>
 
-  if(loading){
-    return <div>Loading</div>
-  }else{
-    return (
-      <div className={styles.container}>
-        <div className={styles.leftNavigation}>
-          <div className={styles.imageContainer}>
-            <img alt="logo" src={logo} className={styles.image}/>
-          </div>
-          <Link to="/orders">
-            <div className={styles.tabContainer}>
-                Orders
-            </div>
-          </Link>
-          <Link to="/products">
-            <div className={`${styles.tabContainer} ${styles.active}`}>
-                Products
-            </div>
-          </Link>
-          <Link to="/customers">
-            <div className={styles.tabContainer}>
-                Customers
-            </div>
-          </Link>
-          <Logout />
-        </div>
-        <div className={styles.contentContainer}>
-  
-          <div className={styles.headingContainer}>
-            <div className={styles.titleContainer}>
-              Products
-            </div>
-  
-            <div className={styles.buttonContainer}>
-                <input className={styles.search} placeholder='🔎︎ Search' value={searchValue} onChange={(event)=> search(event.target.value.toLowerCase())}/>
-              <div className={styles.deleteContainer}>
-                Delete
-              </div>
-              <Link className={styles.addProductContainer} to={'add'}>
-                Add Product
-              </Link>
-            </div>
-          </div>
-  
-          <div className={styles.gridContainerHeading}>
-              <div className={styles.item}></div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('name')}}>Name {sort === 'name' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('id')}}>Product ID {sort === 'id' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('category')}}>Category {sort === 'category' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('price')}}>Price {sort === 'price' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('sales')}}>Sales {sort === 'sales' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('status')}}>Status {sort === 'status' ? <span>▼</span> : <span>►</span>}</div>
-          </div>
-        
-          {
-            currentProducts.map((product, index) => {
-             if(index < 7){
-              return(
-                <div className={styles.gridContainer} key={index}>
-                  <div className={`${styles.item} ${styles.checkBox}`}><input type="checkbox" id={product.id} name={product.id} value={product.id} /></div>
-                  <Link className={styles.itemImageContainer} to={`/product/${product.id}`}>
-                    <img className={styles.itemImage} alt={product.picture} src={product.picture}/>
-                  </Link> 
-                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.name}</Link>
-                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.id}</Link>
-                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.category}</Link>
-                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.price}</Link>
-                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.sales}</Link>
-                  <Link className={styles.item}  to={`/products/${product.id}`}>{product.status}</Link>
-                </div>
-              )
-             }else{
-               return null
-             }
-            })
-          }
-  
-          <div className={styles.arrowContainer}>
-            <div className={styles.arrowLeft} onClick={back}>◄</div>
-            <p>{page} of {Math.ceil(sortedProducts.length / 7)}</p>
-            <div className={styles.arrowRight}  onClick={forward}>►</div>
-          </div>
+      <SideBarNav></SideBarNav>
+
+      <section className='h-full flex flex-col container mx-auto px-4 py-4'>
+
+        <section className='space-y-2 mb-4'>
           
-        </div>
-      </div>
-    );
-  }
+          <div className='text-[2rem] font-bold'>
+            Products
+          </div>
+
+          <div className='flex space-x-6'>
+            
+            <input className='border border-black rounded-full py-2 px-4' placeholder='🔎︎ Search' />
+
+            <div className='flex items-center justify-center px-6 border border-black rounded-full cursor-pointer '>
+              Delete
+            </div>
+
+            <Link className='flex items-center justify-center px-6 bg-[#6792cd] text-white rounded-full cursor-pointer' to={'add'}>
+              Add Product
+            </Link>
+            
+          </div>
+
+        </section>
+
+        
+        <section className='flex-1' >
+          <DataGrid
+            rows={getAllProductsState.data.length === 0 ? [] : getAllProductsState.data }
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            getRowId={(row) => row._id} 
+            disableSelectionOnClick
+          />
+        </section>
+    
+      </section>
+
+
+    </section>
+  );
 }

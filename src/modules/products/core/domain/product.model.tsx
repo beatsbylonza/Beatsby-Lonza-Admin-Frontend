@@ -1,12 +1,19 @@
 export interface ProductModel {
+    _id: string,
+
     name: string,
-    id: string,
-    category: string,
-    color: Array<string>,
-    description: string,
-    picture: string,
+    createdAt: string,
     price: number,
-    size: Array<string>,
+    stock: number,
     sales: number,
-    status: string,
+    sold: number,
+
+    categories: Array<string>,
+    colors: Array<string>,
+    description: string,
+    imageUrls: Array<string>,
+    sizes: Array<string>,
+    available: string,
+
+
 }

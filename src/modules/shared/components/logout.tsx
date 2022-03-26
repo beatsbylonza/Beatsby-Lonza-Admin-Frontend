@@ -1,9 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import { authenticationInitial, AuthenticationState, selectAuthentication } from '../../authentication/presentation/authentication-slice';
+
+import { authenticationInitial, } from '../../authentication/presentation/authentication-slice';
 import { loginInitial } from '../../authentication/presentation/login-slice';
-import { useAppDispatch, useAppSelector } from '../../config/hooks';
+import { useAppDispatch } from '../../config/hooks';
 import { AUTH_LOCAL_STORAGE_KEY } from '../constants';
-import styles from './shared.module.css';
 
 /* Put here the logout resets of states and local storage and cookies */
 const logout = (dispatch: any )=>{
@@ -16,8 +15,8 @@ export default function Logout(){
     const dispatch = useAppDispatch();
 
     return (
-        <div className={styles.logoutContainer} onClick={ () => logout(dispatch)}>
-            <div className={styles.logout}>
+        <div className='flex w-full justify-center items-center' onClick={ () => logout(dispatch)}>
+            <div className='flex justify-center items-center bg-white py-2 px-6 rounded-full cursor-pointer font-bold'>
                 LOGOUT
             </div>
         </div>

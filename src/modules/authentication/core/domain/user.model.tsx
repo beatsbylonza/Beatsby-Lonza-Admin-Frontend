@@ -1,13 +1,22 @@
 export default interface UserModel{
 
     /* MongoDB default objectId */
-    _id ?: string;
+    _id: string;
 
-	email: String,
-	username: { type: String, required: true },
-	password: { type: String, required: true },
+	email: string,
+	username: string,
+	password: string,
 
-	firstName: { type: String, required: true },
-	middleName: { type: String, required: true },
-	lastName: { type: String, required: true },
+	firstName: string,
+	middleName: string,
+	lastName: string,
+
+	contactNumber: string,
+	
+	address: {
+		city: string,
+		state: string,
+		street: string,
+		zipcode: string,
+	}
 }

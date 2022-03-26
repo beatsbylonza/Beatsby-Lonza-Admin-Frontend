@@ -1,172 +1,104 @@
 import {
   Link
 } from 'react-router-dom';
-import logo from '../../../assets/image/logo.png';
 
-import { customers } from '../../shared/fixtures/data-fixture';
-import { useState, useEffect } from 'react';
-import styles from './customers-page.module.css';
-import { CustomerModel } from '../core/domain/customer.model';
-import Logout from '../../shared/components/logout';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../config/hooks';
+import { AuthenticationState, selectAuthentication } from '../../authentication/presentation/authentication-slice';
+import { getAllCustomers, selectGetAllCustomers } from './get-all-customers-slice';
+import SideBarNav from '../../shared/components/sidebar-nav';
+import { DataGrid } from '@mui/x-data-grid';
+import UserModel from '../../authentication/core/domain/user.model';
+
+
+/* PRODUCT TABLE HEADERS */
+const columns = [
+  { 
+    field: '_id', 
+    headerName: 'ID',
+    width: 150,
+  },
+  {
+    field: 'name',
+    headerName: 'Name',
+    width: 250,
+    valueGetter: (params: any) =>
+      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+  },
+  {
+    field: 'email',
+    headerName: 'Email',
+    width: 180,
+  },
+  {
+    field: 'contactNumber',
+    headerName: 'Contact Number',
+    width: 150,
+  },
+  {
+    field: 'address',
+    headerName: 'Address',
+    width: 300,
+    valueGetter: (params: any) =>
+      `${params.row.street || ''} ${params.row.city || ''} ${params.row.state || ''} ${params.row.zopcode || ''}`,
+  }
+];
+
 
 export default function CustomersPage() {
-  const [currentCustomers, setCurrentCustomers] = useState<Array<CustomerModel>>([]);
-  const [sortedCustomers, setSortedCustomers] = useState<Array<CustomerModel>>([]);
-  const [sort, setSort] = useState('name');
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [searchValue, setSearchValue] = useState('');
+  
+  const dispatch = useAppDispatch();
+  const authenticationState = useAppSelector(selectAuthentication);
+  const getAllCustomersState = useAppSelector(selectGetAllCustomers);
 
   useEffect(()=>{
-    const tempCustomers :  any = customers.sort((a : any , b: any) =>
-      a.date > b.date ? 1 : b.date > a.date ? -1 : 0
-    )
-    setSortedCustomers(tempCustomers);
-    setCurrentCustomers(tempCustomers);
-    setLoading(false);
-  },[])
-
-  const sortFunction = (type : string ) => {
-    setSort(type)
-    if(type === 'name'){
-      currentCustomers.sort((a : CustomerModel, b: CustomerModel) => `${a.firstName} ${a.middleName} ${a.lastName}` > `${b.firstName} ${b.middleName} ${b.lastName}` ? 1 : `${b.firstName} ${b.middleName} ${b.lastName}` > `${a.firstName} ${a.middleName} ${a.lastName}` ? -1 : 0)
-    }else if(type === 'address'){
-      currentCustomers.sort((a : CustomerModel, b: CustomerModel) => `${a.street} ${a.city} ${a.state} ${a.zipCode}` > `${b.street} ${b.city} ${b.state} ${b.zipCode}` ? 1 : `${b.street} ${b.city} ${b.state} ${b.zipCode}` > `${a.street} ${a.city} ${a.state} ${a.zipCode}` ? -1 : 0)
-    }else{
-      currentCustomers.sort((a: any, b: any) => a[type] > b[type] ? 1 : b[type] > a[type] ? -1 : 0)
+    if(authenticationState.status === AuthenticationState.success){
+      if(authenticationState.token)
+        dispatch(getAllCustomers({token: authenticationState.token}));
     }
-  }
+  },[authenticationState,dispatch]);
 
-  const back = () =>{
-    if(page > 1){
-      setCurrentCustomers(()=>{
-        return sortedCustomers.slice((page-2)* 7, (page-1) *7)
-      })
-      setPage(prev => prev-1);
-      setSearchValue('');
-    }
-  }
+  return (
+    <section className='h-screen space-x-2 flex'>
 
-  const forward = () =>{
-    if(searchValue === ''){
-      if(page < Math.ceil(customers.length / 7)){
-        setCurrentCustomers(()=>{
-          return sortedCustomers.slice((page)* 7, (page+1) *7)
-        })
-        setPage(prev => prev+1);
-        setSearchValue('');
-      }
-    }else{
-      if(page < Math.ceil(currentCustomers.length / 7)){
-        setCurrentCustomers(()=>{
-          return sortedCustomers.slice((page)* 7, (page+1) *7)
-        })
-        setPage(prev => prev+1);
-        setSearchValue('');
-      }
-    }
-  }
+      <SideBarNav></SideBarNav>
 
-  const search = (value : string) =>{
-    setSearchValue(value);
-    setPage(1)
-    setCurrentCustomers(() => {
-      const tempCustomers = sortedCustomers.filter((customer : CustomerModel) => {
+      <section className='h-full flex flex-col container mx-auto px-4 py-4'>
 
-        if (customer.firstName.toLowerCase().includes(value, 0) || customer.middleName.toLowerCase().includes(value, 0) || customer.lastName.toLowerCase().includes(value, 0) || customer._id.toLowerCase().includes(value, 0) || customer.street.toLowerCase().includes(value, 0) || customer.city.toLowerCase().includes(value, 0) || customer.state.toLowerCase().includes(value, 0) || customer.zipCode.toLowerCase().includes(value, 0) || customer.email.toLowerCase().includes(value, 0) || customer.contactNumber.toLowerCase().includes(value, 0)) {
-          return customer;
-        }else{
-          return null
-        }
-      });
-      return tempCustomers;
-    });
-  }
-
-  if(loading){
-    return <div>Loading</div>
-  }else{
-    return (
-      <div className={styles.container}>
-        <div className={styles.leftNavigation}>
-          <div className={styles.imageContainer}>
-            <img alt="logo" src={logo} className={styles.image}/>
-          </div>
-          <Link to="/orders">
-            <div className={styles.tabContainer}>
-                Orders
-            </div>
-          </Link>
-          <Link to="/products">
-            <div className={styles.tabContainer}>
-                Products
-            </div>
-          </Link>
-          <Link to="/customers">
-            <div className={`${styles.tabContainer} ${styles.active}`}>
-                Customers
-            </div>
-          </Link>
-          <Logout />
-        </div>
-        <div className={styles.contentContainer}>
-  
-          <div className={styles.headingContainer}>
-            <div className={styles.titleContainer}>
-              Customers
-            </div>
-  
-            <div className={styles.buttonContainer}>
-  
-              <input className={styles.search} placeholder='🔎︎ Search' value={searchValue} onChange={(event)=> search(event.target.value.toLocaleLowerCase())}/>
-  
-  
-              <div className={styles.deleteContainer}>
-                Delete
-              </div>
-            </div>
-          </div>
-  
-          <div className={styles.gridContainerHeading}>
-              <div className={styles.item}></div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('name')}}>Name  {sort === 'name' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('userID')}}>User ID  {sort === 'userID' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('address')}}>Address {sort === 'address' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('email')}}>Email {sort === 'email' ? <span>▼</span> : <span>►</span>}</div>
-              <div className={styles.itemHeader} onClick={()=>{sortFunction('contactNumber')}}>Contact Number  {sort === 'contactNumber' ? <span>▼</span> : <span>►</span>}</div>
-          </div>
-        
-          {
-            currentCustomers.map((customer : CustomerModel, index)=>{
-              if(index < 7){
-                return(
-                  <div className={styles.gridContainer} key={index}>
-                    <div className={styles.item}><input type="checkbox" id={customer._id} name={customer._id} value={customer._id} /></div>
-                    <div className={styles.item}>{`${customer.firstName} ${customer.middleName} ${customer.lastName}`}</div>
-                    <div className={styles.item}>{customer._id}</div>
-                    <div className={styles.item}>{`${customer.street} ${customer.city} ${customer.state} ${customer.zipCode}`}</div>
-                    <div className={styles.item}>{customer.email}</div>
-                    <div className={styles.item}>{customer.contactNumber}</div>
-                  </div>
-                )
-              }else{
-                return null
-              }
-            })
-          }
-
-          <div className={styles.arrowContainer}>
-            <div className={styles.arrowLeft} onClick={back}>◄</div>
-            {
-              searchValue === '' ?
-              <p>{page} of {Math.ceil(sortedCustomers.length / 7)}</p>:
-              <p>{page} of {Math.ceil(currentCustomers.length / 7)}</p>
-            }
-            <div className={styles.arrowRight}  onClick={forward}>►</div>
-          </div>
+        <section className='space-y-2 mb-4'>
           
-        </div>
-      </div>
-    );
-  }
+          <div className='text-[2rem] font-bold'>
+            Customers
+          </div>
+
+          <div className='flex space-x-6'>
+            
+            <input className='border border-black rounded-full py-2 px-4' placeholder='🔎︎ Search' />
+
+            <div className='flex items-center justify-center px-6 border border-black rounded-full cursor-pointer '>
+              Delete
+            </div>
+            
+          </div>
+
+        </section>
+
+        
+        <section className='flex-1' >
+          <DataGrid
+            rows={getAllCustomersState.data.length === 0 ? [] : getAllCustomersState.data }
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            getRowId={(row) => row._id} 
+            disableSelectionOnClick
+          />
+        </section>
+    
+      </section>
+
+
+    </section>
+  );
 }

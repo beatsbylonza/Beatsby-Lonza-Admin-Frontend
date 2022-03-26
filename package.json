@@ -8,6 +8,7 @@
     "@mui/material": "^5.5.2",
     "@mui/styled-engine-sc": "^5.5.2",
     "@mui/styles": "^5.5.1",
+    "@mui/x-data-grid": "^5.7.0",
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -21,6 +22,7 @@
     "inversify": "^6.0.1",
     "inversify-inject-decorators": "^3.1.0",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
@@ -32,9 +34,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build": "react-scripts build",
+    "build:staging": "env-cmd -f ./.env.staging react-scripts build",
+    "build:production": "env-cmd -f ./.env.production react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -51,5 +55,9 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "autoprefixer": "^10.4.4",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23"
+  }
 }
