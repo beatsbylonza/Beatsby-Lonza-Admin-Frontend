@@ -5,39 +5,51 @@ import { selectAuthentication } from '../../authentication/presentation/authenti
 import { DataGrid } from '@mui/x-data-grid';
 import SideBarNav from '../../shared/components/sidebar-nav';
 import { useEffect } from 'react';
+import { AiFillEye } from "react-icons/ai";
 
 /* Orders TABLE HEADERS */
 const columns = [
   { 
     field: '_id', 
     headerName: 'ID',
-    width: 150,
+    flex : 2
   },
   {
     field: 'productId',
     headerName: 'Product ID',
-    width: 200,
+    flex : 2
   },
   {
     field: 'customerId',
     headerName: 'Customer ID',
-    width: 200,
+    flex : 2
   },
   {
     field: 'deliveryAddress',
     headerName: 'Delivery Address',
-    width: 300,
+    flex : 3
   },
   {
     field: 'quantity',
     headerName: 'Quantity',
     type: 'number',
-    width: 90,
+    flex : 1
   },
   {
     field: 'status',
     headerName: 'Status',
-    width: 90,
+    flex : 1
+  },
+  {
+    field: 'view',
+    headerName: 'View',
+    flex : 1,
+    cellClassName: '!flex !justify-center !items-center',
+    renderCell: (params : any ) => {
+      return (
+          <AiFillEye className='text-xl text-[#6792cd]'/>
+      );
+    }
   },
 ];
 

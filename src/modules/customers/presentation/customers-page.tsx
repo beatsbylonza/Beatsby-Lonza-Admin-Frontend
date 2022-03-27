@@ -16,29 +16,29 @@ const columns = [
   { 
     field: '_id', 
     headerName: 'ID',
-    width: 150,
+    flex : 1,
   },
   {
     field: 'name',
     headerName: 'Name',
-    width: 250,
+    flex : 2 ,
     valueGetter: (params: any) =>
       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
   {
     field: 'email',
     headerName: 'Email',
-    width: 180,
+    flex : 1,
   },
   {
     field: 'contactNumber',
     headerName: 'Contact Number',
-    width: 150,
+    flex : 1,
   },
   {
     field: 'address',
     headerName: 'Address',
-    width: 300,
+    flex : 3,
     valueGetter: (params: any) =>
       `${params.row.street || ''} ${params.row.city || ''} ${params.row.state || ''} ${params.row.zopcode || ''}`,
   }
