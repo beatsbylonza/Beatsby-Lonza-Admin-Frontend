@@ -31,6 +31,7 @@ const columns = [
   {
     field: 'name',
     headerName: 'Name',
+    editable: true,
     flex : 4,
   },
   {
