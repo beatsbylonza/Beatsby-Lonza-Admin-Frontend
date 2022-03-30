@@ -10,6 +10,7 @@ import OrdersPage from './modules/orders/presentation/orders-page';
 import ProductsPage from './modules/products/presentation/products-page';
 import PrivateRouteWrapper from './modules/shared/components/private-route';
 import Product from './modules/products/presentation/product-page';
+import AddProductPage from './modules/products/presentation/add-product-page';
 
 function App() {
 
@@ -29,6 +30,9 @@ function App() {
               </Route>
               <Route element={<PrivateRouteWrapper />}>
                 <Route path='products/' element={<ProductsPage />}></Route>
+              </Route>
+              <Route element={<PrivateRouteWrapper />}>
+                <Route path='products/add' element={<AddProductPage />}></Route>
               </Route>
               <Route element={<PrivateRouteWrapper />}>
                 <Route path='products/:id' element={<Product />}></Route>

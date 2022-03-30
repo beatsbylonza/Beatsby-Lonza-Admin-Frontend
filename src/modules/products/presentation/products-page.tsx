@@ -4,7 +4,7 @@ import {
 
 import { useEffect } from 'react';
 import { getAllProducts, selectGetAllProducts } from './get-all-products-slice';
-import { DataGrid, GridCellParams } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { useAppDispatch, useAppSelector } from '../../config/hooks';
 import { AuthenticationState, selectAuthentication } from '../../authentication/presentation/authentication-slice';
 import SideBarNav from '../../shared/components/sidebar-nav';
@@ -19,7 +19,7 @@ const columns = [
     cellClassName: '!flex !justify-center !items-center',
     renderCell: (params : any ) => {
       return (
-        <img src={params.row.imageUrls[0]} className='w-[40px] h-[40px] rounded-lg'></img>
+        <img src={params.row.imageUrls[0]} alt={params.row.imageUrls[0]} className='w-[40px] h-[40px] rounded-lg'></img>
       );
     }
   },
@@ -93,13 +93,13 @@ export default function ProductsPage(){
 
 
   return (
-    <section className='h-screen space-x-2 flex'>
+    <section className='flex h-screen space-x-2'>
 
       <SideBarNav></SideBarNav>
 
-      <section className='h-full flex flex-col container mx-auto px-4 py-4'>
+      <section className='container flex flex-col h-full px-4 py-4 mx-auto'>
 
-        <section className='space-y-2 mb-4'>
+        <section className='mb-4 space-y-2'>
           
           <div className='text-[2rem] font-bold'>
             Products
@@ -107,7 +107,7 @@ export default function ProductsPage(){
 
           <div className='flex space-x-6'>
             
-            <input className='border border-black rounded-full py-2 px-4' placeholder='🔎︎ Search' />
+            <input className='px-4 py-2 border border-black rounded-full' placeholder='🔎︎ Search' />
 
             <div className='flex items-center justify-center px-6 border border-black rounded-full cursor-pointer '>
               Delete
