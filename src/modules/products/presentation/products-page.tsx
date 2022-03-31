@@ -1,8 +1,8 @@
 import {
-  Link
+  Link, useLocation
 } from 'react-router-dom';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getAllProducts, selectGetAllProducts } from './slices/get-all-products-slice';
 import { DataGrid } from '@mui/x-data-grid';
 import { useAppDispatch, useAppSelector } from '../../config/hooks';
@@ -10,47 +10,59 @@ import { AuthenticationState, selectAuthentication } from '../../authentication/
 import SideBarNav from '../../shared/components/sidebar-nav';
 import { AiFillEye } from "react-icons/ai";
 import { removeProduct, RemoveProductState, selectRemoveProduct } from './slices/remove-product-slice';
+import { Dialog } from '@mui/material';
+import ProductInfoForm from './product-info-form';
+import { selectProduct, selectProductInitial, SelectProductState, selectSelectProduct } from './slices/select-product-slice';
+
 
 /* PRODUCT TABLE HEADERS */
 const columns = [
-  { 
-    field: 'image', 
-    headerName: 'Image',
-    flex : 1,
-    cellClassName: '!flex !justify-center !items-center',
-    renderCell: (params : any ) => {
-      return (
-        <img src={params.row.imageUrl} alt={params.row.imageUrl} className='w-[40px] h-[40px] rounded-lg'></img>
-      );
-    }
-  },
-  { 
-    field: '_id', 
-    headerName: 'ID',
-    flex : 2
-  },
   {
     field: 'name',
     headerName: 'Name',
-    editable: true,
     flex : 4,
+    renderCell: (params : any ) => {
+      return (
+        <div className='flex items-center justify-center space-x-4'>
+          <img src={params.row.imageUrl} alt={params.row.imageUrl} className='w-[40px] h-[40px] rounded-lg'></img>
+          <span>{params.row.name}</span>
+        </div>
+
+      );
+    }
+  },
+  {
+    field: 'category',
+    headerName: 'Category',
+    flex : 2,
   },
   {
     field: 'price',
     headerName: 'Price',
     flex : 1,
-    valueGetter: (params : any) => `$ ${params.row.price.value.$numberDecimal}`
-  },
-  {
-    field: 'stock',
-    headerName: 'Stock',
-    flex : 1,
-    type: 'number',
-    editable: true,
+    renderCell: (params : any ) => {
+      return (
+        <span className='text-green-700 font-bold'>
+          $ {params.row.price.value.$numberDecimal}.00
+        </span>
+      );
+    }
   },
   {
     field: 'sales',
     headerName: 'Sales',
+    flex : 1,
+    renderCell: (params : any ) => {
+      return (
+        <span className='text-green-700 font-bold'>
+          $ {params.row.sales}.00
+        </span>
+      );
+    }
+  },
+  {
+    field: 'stock',
+    headerName: 'Stock',
     flex : 1,
     type: 'number',
   },
@@ -64,7 +76,7 @@ const columns = [
     field: 'available',
     headerName: 'Available',
     flex : 1,
-    type: 'number',
+    type: 'number', 
   },
   {
     field: 'view',
@@ -73,12 +85,21 @@ const columns = [
     cellClassName: '!flex !justify-center !items-center',
     renderCell: (params : any ) => {
       return (
-          <AiFillEye className='text-xl text-[#6792cd]'/>
+        <Link className=' cursor-pointer' to={{
+          search: `?product_id=${params.row._id}`,
+        }}>
+          <AiFillEye className='text-xl '/>
+        </Link>
       );
     }
   },
 ];
 
+function useQuery() {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
 
 
 /* Login Page Module */
@@ -86,8 +107,50 @@ export default function ProductsPage(){
   const dispatch = useAppDispatch();
   const authorizationState = useAppSelector(selectAuthentication);
   const getAllProductsState = useAppSelector(selectGetAllProducts);
+  const selectProductState = useAppSelector(selectSelectProduct);
   const removeProductState = useAppSelector(selectRemoveProduct);
   let idsToDelete : Array<string> = [];
+  
+  const [update, setUpdate] = useState(false);
+
+  let query = useQuery();
+
+  useEffect(()=>{
+    switch(selectProductState.status){
+      case SelectProductState.success:
+        setUpdate(true);
+        break;
+      case SelectProductState.initial:
+        setUpdate(false);
+        break;
+    }
+  },[selectProductState]);
+
+  useEffect(()=>{
+
+    const productId = query.get('product_id');
+    if(productId){
+      switch(authorizationState.status){
+        case AuthenticationState.success:
+
+            if(authorizationState.token)
+              dispatch(selectProduct({
+                token: authorizationState.token,
+                productId,
+              }))
+
+            break;
+      }
+    }else{
+      dispatch(selectProductInitial());
+    }
+    
+  },[query, authorizationState, dispatch]);
+
+  
+  const handleClose = () => {
+    setUpdate(false);
+  };
 
   useEffect(()=>{
     if(authorizationState.status === AuthenticationState.success){
@@ -123,7 +186,9 @@ export default function ProductsPage(){
   }
 
   return (
-    <section className='flex h-screen space-x-2'>
+    <section>
+
+      <section className='flex h-screen space-x-2'>
 
       <SideBarNav></SideBarNav>
 
@@ -168,10 +233,38 @@ export default function ProductsPage(){
             }
           />
         </section>
-    
+
       </section>
 
 
+
+      </section>
+
+      <UpdateProductDialog open={update} onClose={handleClose}></UpdateProductDialog>
     </section>
+  );
+}
+
+function UpdateProductDialog(props : any) {
+  const { open } = props;
+
+  return (
+    <Dialog open={open} fullWidth={true} maxWidth='xl'>
+
+      <ProductInfoForm></ProductInfoForm>
+      
+      <div className="flex items-center justify-center w-full gap-5 mb-5 align-center">
+          <button className="px-4 py-2 font-bold text-white bg-blue-400 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline" type="submit" form='product-info-form'>
+              Update  
+          </button>
+          <Link className="px-4 py-2 font-bold text-black bg-white border border-blue-100 rounded hover:bg-gray-300 focus:outline-none focus:shadow-outline"
+            to={'/products'}
+            >
+              Cancel
+          </Link>
+      </div>
+
+     
+    </Dialog>
   );
 }

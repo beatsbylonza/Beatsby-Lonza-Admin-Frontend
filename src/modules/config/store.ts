@@ -7,6 +7,8 @@ import getAllCustomersReducer from '../customers/presentation/get-all-customers-
 import getAllProductsReducer  from '../products/presentation/slices/get-all-products-slice';
 import addProductReducer  from '../products/presentation/slices/add-product-slice';
 import removeProductReducer from '../products/presentation/slices/remove-product-slice';
+import updateProductReducer from '../products/presentation/slices/update-product-slice';
+import selectProductReducer from '../products/presentation/slices/select-product-slice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +20,8 @@ export const store = configureStore({
     getAllProducts: getAllProductsReducer,
     addProduct: addProductReducer,
     removeProduct: removeProductReducer,
+    updateProduct: updateProductReducer,
+    selectProduct: selectProductReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

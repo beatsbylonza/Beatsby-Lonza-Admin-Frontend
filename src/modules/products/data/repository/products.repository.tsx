@@ -1,7 +1,7 @@
 import axios from "axios"
 import { REACT_APP_API_URL } from "../../../shared/constants"
 import { ProductModel } from "../../core/domain/product.model"
-import { AddProductProps, GetAllProductsProps, RemoveProductProps } from "../../core/products.props"
+import { AddProductProps, GetAllProductsProps, RemoveProductProps, SelectProductProps, UpdateProductProps } from "../../core/products.props"
 
 export interface GetAllProductsRepositoryResponse{
     data : {
@@ -19,6 +19,20 @@ export interface AddProductRepositoryResponse{
 export interface RemoveProductRepositoryResponse{
     data: {
         message: string,
+    }
+}
+
+export interface UpdateProductRepositoryResponse{
+    data: {
+        message: string,
+    }
+}
+
+export interface SelectProductRepositoryResponse{
+    data: {
+        message: string,
+
+        data: ProductModel
     }
 }
 
@@ -41,6 +55,22 @@ export function AddProductRepository(props: AddProductProps) : Promise<AddProduc
 
 export function RemoveProductRepository(props: RemoveProductProps) : Promise<RemoveProductRepositoryResponse>{
     return axios.delete(`${REACT_APP_API_URL}/products/remove/${props.productsId}`, {
+        headers: {
+            'Authorization' : `Bearer ${props.token}`,
+        }
+    });
+}
+
+export function SelectProductRepository(props: SelectProductProps) : Promise<SelectProductRepositoryResponse>{
+    return axios.get(`${REACT_APP_API_URL}/products/${props.productId}`, {
+        headers: {
+            'Authorization' : `Bearer ${props.token}`,
+        }
+    });
+}
+
+export function UpdateProductRepository(props: UpdateProductProps) : Promise<UpdateProductRepositoryResponse>{
+    return axios.put(`${REACT_APP_API_URL}/products/${props.productId}`, {
         headers: {
             'Authorization' : `Bearer ${props.token}`,
         }

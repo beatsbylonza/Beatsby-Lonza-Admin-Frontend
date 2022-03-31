@@ -13,3 +13,15 @@ export interface RemoveProductProps{
 
     productsId: string,
 }
+
+export interface UpdateProductProps{
+    token: string,
+
+    productId: string,
+}
+
+export interface SelectProductProps{
+    token: string,
+
+    productId: string,
+}

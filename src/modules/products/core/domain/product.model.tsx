@@ -3,7 +3,12 @@ export interface ProductModel {
 
     name: string,
     createdAt: string,
-    price: number,
+    price: {
+        value : {
+            $numberDecimal: number,
+        }
+        currency: string,
+    },
     stock: number,
     sales: number,
     sold: number,
