@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../config/store";
-import { ProductModel } from "../core/domain/product.model";
-import { GetAllProductsProps } from "../core/products.props";
-import GetAllProductsUsecase from "../core/usecases/get-all-products.usecase";
-import { GetAllProductsRepositoryResponse } from "../data/repository/products.repository";
+import { RootState } from "../../../config/store";
+import { ProductModel } from "../../core/domain/product.model";
+import { GetAllProductsProps } from "../../core/products.props";
+import GetAllProductsUsecase from "../../core/usecases/get-all-products.usecase";
+import { GetAllProductsRepositoryResponse } from "../../data/repository/products.repository";
+
 
 export enum GetAllProductsState{
     initial,

@@ -8,11 +8,11 @@ export interface ProductModel {
     sales: number,
     sold: number,
 
-    categories: Array<string>,
-    colors: Array<string>,
+    category: string,
+    color: string,
     description: string,
-    imageUrls: Array<string>,
-    sizes: Array<string>,
+    imageUrl: string,
+    size: string,
     available: string,
 
 

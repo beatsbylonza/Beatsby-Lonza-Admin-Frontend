@@ -9,7 +9,7 @@ import Logout from '../../shared/components/logout';
 
 export default function SideBarNav(){
     return(
-        <aside className='flex flex-col justify-center w-[250px] bg-[#6792cd] h-full py-4'>
+        <aside className='flex flex-col justify-center w-[250px] bg-[#6792cd] h-full py-4 sticky top-0'>
 
           <div className='w-full mb-2'>
             <img alt="logo" src={logo} className='object-contain h-full'/>

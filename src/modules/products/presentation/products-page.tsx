@@ -3,12 +3,13 @@ import {
 } from 'react-router-dom';
 
 import { useEffect } from 'react';
-import { getAllProducts, selectGetAllProducts } from './get-all-products-slice';
+import { getAllProducts, selectGetAllProducts } from './slices/get-all-products-slice';
 import { DataGrid } from '@mui/x-data-grid';
 import { useAppDispatch, useAppSelector } from '../../config/hooks';
 import { AuthenticationState, selectAuthentication } from '../../authentication/presentation/authentication-slice';
 import SideBarNav from '../../shared/components/sidebar-nav';
 import { AiFillEye } from "react-icons/ai";
+import { removeProduct, RemoveProductState, selectRemoveProduct } from './slices/remove-product-slice';
 
 /* PRODUCT TABLE HEADERS */
 const columns = [
@@ -19,7 +20,7 @@ const columns = [
     cellClassName: '!flex !justify-center !items-center',
     renderCell: (params : any ) => {
       return (
-        <img src={params.row.imageUrls[0]} alt={params.row.imageUrls[0]} className='w-[40px] h-[40px] rounded-lg'></img>
+        <img src={params.row.imageUrl} alt={params.row.imageUrl} className='w-[40px] h-[40px] rounded-lg'></img>
       );
     }
   },
@@ -38,7 +39,7 @@ const columns = [
     field: 'price',
     headerName: 'Price',
     flex : 1,
-    editable: true,
+    valueGetter: (params : any) => `$ ${params.row.price.value.$numberDecimal}`
   },
   {
     field: 'stock',
@@ -79,11 +80,14 @@ const columns = [
 ];
 
 
+
 /* Login Page Module */
 export default function ProductsPage(){
   const dispatch = useAppDispatch();
   const authorizationState = useAppSelector(selectAuthentication);
   const getAllProductsState = useAppSelector(selectGetAllProducts);
+  const removeProductState = useAppSelector(selectRemoveProduct);
+  let idsToDelete : Array<string> = [];
 
   useEffect(()=>{
     if(authorizationState.status === AuthenticationState.success){
@@ -92,6 +96,31 @@ export default function ProductsPage(){
     }
   },[authorizationState, dispatch]);
 
+  useEffect(()=>{
+    switch(removeProductState.status){
+      case RemoveProductState.success: 
+          if(authorizationState.status === AuthenticationState.success){
+            if(authorizationState.token)
+              dispatch(getAllProducts({token: authorizationState.token}));
+          }
+        break;
+    }
+  },[removeProductState, dispatch, authorizationState]);
+
+  function deleteIds(){
+
+    if(authorizationState.status === AuthenticationState.success){
+      
+      if(authorizationState.token){
+        for(let i=0; i < idsToDelete.length; i++){
+          dispatch(removeProduct({
+            token: authorizationState.token,
+            productsId: idsToDelete[i],
+          }));
+        }
+      }
+    }
+  }
 
   return (
     <section className='flex h-screen space-x-2'>
@@ -110,9 +139,9 @@ export default function ProductsPage(){
             
             <input className='px-4 py-2 border border-black rounded-full' placeholder='🔎︎ Search' />
 
-            <div className='flex items-center justify-center px-6 border border-black rounded-full cursor-pointer '>
+            <button className='flex items-center justify-center px-6 border border-black rounded-full cursor-pointer' onClick={deleteIds}>
               Delete
-            </div>
+            </button>
 
             <Link className='flex items-center justify-center px-6 bg-[#6792cd] text-white rounded-full cursor-pointer' to={'add'}>
               Add Product
@@ -127,11 +156,16 @@ export default function ProductsPage(){
           <DataGrid
             rows={getAllProductsState.data.length === 0 ? [] : getAllProductsState.data }
             columns={columns}
-            pageSize={5}
+            pageSize={9}
             rowsPerPageOptions={[5]}
             checkboxSelection
             getRowId={(row) => row._id} 
             disableSelectionOnClick
+            onSelectionModelChange={
+              ( ids : any )=>{
+                idsToDelete = ids;
+              }
+            }
           />
         </section>
     

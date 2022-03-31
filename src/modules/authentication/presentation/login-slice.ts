@@ -41,6 +41,10 @@ export const loginSlice = createSlice({
           localStorage.setItem(AUTH_LOCAL_STORAGE_KEY, action.payload.token);
           
           state.status = LoginState.success;
+        })
+        .addCase(loginUser.rejected, (state : any) => {
+
+          state.status = LoginState.fails;
         });
     },
 });

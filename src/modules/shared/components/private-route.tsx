@@ -10,6 +10,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { LoginState, selectLogin } from '../../authentication/presentation/login-slice';
 import { Slide, Snackbar} from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
+import { addProductInitial, AddProductState, selectAddProduct } from '../../products/presentation/slices/add-product-slice';
+import { removeProduct, removeProductInitial, RemoveProductState, selectRemoveProduct } from '../../products/presentation/slices/remove-product-slice';
 
 
 
@@ -44,12 +46,21 @@ export default function PrivateRouteWrapper (props : { index ?: boolean}) {
 
 function StackedOutlet(){
   const [loading, toggleLoading] = useState(false);
+
   const [successAlert, setSuccessAlert] = useState<{status: boolean, message?: string}>({
     status: false,
   });
+
+  const [failsAlert, setFailsAlert] = useState<{status: boolean, message?: string}>({
+    status: false,
+  });
+  
   
   const loginState  = useAppSelector(selectLogin);
+  const addProductState = useAppSelector(selectAddProduct);
+  const removeProductState = useAppSelector(selectRemoveProduct);
 
+  const dispatch = useAppDispatch();
 
   useEffect(()=>{
     switch(loginState){
@@ -58,19 +69,61 @@ function StackedOutlet(){
         break;
       case LoginState.initial:
         showAlert(setSuccessAlert,'Logout Successful!');
+        toggleLoading(false);
         break;
       case LoginState.success:
         showAlert(setSuccessAlert,'Login Successful!');
+        dispatch(addProductInitial());
+        toggleLoading(false);
+        break;
+      case LoginState.fails:
+        showAlert(setFailsAlert,'Login Unsuccessful!');
+        dispatch(addProductInitial());
         toggleLoading(false);
         break;
     }
 
-  },[loginState]);
+  },[loginState, dispatch]);
+
+  
+  useEffect(()=>{
+    switch(addProductState.status){
+      case AddProductState.inProgress:
+        toggleLoading(true);
+        break;
+      case AddProductState.success:
+        showAlert(setSuccessAlert, addProductState.message);
+        dispatch(addProductInitial());
+        toggleLoading(false);
+        break;
+      case AddProductState.fail:
+        showAlert(setFailsAlert, addProductState.message);
+        dispatch(addProductInitial());
+        toggleLoading(false);
+        break;
+    }
+
+  },[addProductState, dispatch]);
+
+  useEffect(()=>{
+    switch(removeProductState.status){
+      case RemoveProductState.inProgress:
+        toggleLoading(true);
+        break;
+      case RemoveProductState.success:
+        showAlert(setSuccessAlert, removeProductState.message);
+        dispatch(removeProductInitial());
+        toggleLoading(false);
+        break;
+    }
+  },[removeProductState, dispatch]);
+
 
   return (
     <div>
       <Outlet />
       <SnackbarAlert open={successAlert.status} severity="success" message={successAlert.message} />
+      <SnackbarAlert open={failsAlert.status} severity="error" message={failsAlert.message} />
       <Loading 
         open={loading}
       ></Loading>

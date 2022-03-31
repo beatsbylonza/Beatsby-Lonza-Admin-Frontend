@@ -4,7 +4,9 @@ import loginReducer from '../authentication/presentation/login-slice';
 import authenticationReducer from '../authentication/presentation/authentication-slice';
 import getAllOrdersReducer from '../orders/presentation/get-all-orders-slice';
 import getAllCustomersReducer from '../customers/presentation/get-all-customers-slice';
-import getAllProductsReducer  from '../products/presentation/get-all-products-slice';
+import getAllProductsReducer  from '../products/presentation/slices/get-all-products-slice';
+import addProductReducer  from '../products/presentation/slices/add-product-slice';
+import removeProductReducer from '../products/presentation/slices/remove-product-slice';
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +14,10 @@ export const store = configureStore({
     authentication : authenticationReducer,
     getAllOrders: getAllOrdersReducer,
     getAllCustomers: getAllCustomersReducer,
+
     getAllProducts: getAllProductsReducer,
+    addProduct: addProductReducer,
+    removeProduct: removeProductReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
