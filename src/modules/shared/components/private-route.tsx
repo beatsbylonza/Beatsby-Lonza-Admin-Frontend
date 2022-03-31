@@ -115,6 +115,11 @@ function StackedOutlet(){
         dispatch(removeProductInitial());
         toggleLoading(false);
         break;
+      case RemoveProductState.fail:
+        showAlert(setFailsAlert, removeProductState.message);
+        dispatch(addProductInitial());
+        toggleLoading(false);
+        break;
     }
   },[removeProductState, dispatch]);
 
