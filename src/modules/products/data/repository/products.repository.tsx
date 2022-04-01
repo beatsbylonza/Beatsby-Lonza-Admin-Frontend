@@ -54,7 +54,7 @@ export function AddProductRepository(props: AddProductProps) : Promise<AddProduc
 }
 
 export function RemoveProductRepository(props: RemoveProductProps) : Promise<RemoveProductRepositoryResponse>{
-    return axios.delete(`${REACT_APP_API_URL}/products/remove/${props.productsId}`, {
+    return axios.delete(`${REACT_APP_API_URL}/products/${props.productsId}`, {
         headers: {
             'Authorization' : `Bearer ${props.token}`,
         }
@@ -70,7 +70,7 @@ export function SelectProductRepository(props: SelectProductProps) : Promise<Sel
 }
 
 export function UpdateProductRepository(props: UpdateProductProps) : Promise<UpdateProductRepositoryResponse>{
-    return axios.put(`${REACT_APP_API_URL}/products/${props.productId}`, {
+    return axios.put(`${REACT_APP_API_URL}/products/${props.productId}`,props.formData, {
         headers: {
             'Authorization' : `Bearer ${props.token}`,
         }

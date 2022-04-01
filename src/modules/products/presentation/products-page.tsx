@@ -1,5 +1,5 @@
 import {
-  Link, useLocation
+  Link, useLocation, useNavigate
 } from 'react-router-dom';
 
 import { useEffect, useState, useMemo } from 'react';
@@ -13,6 +13,8 @@ import { removeProduct, RemoveProductState, selectRemoveProduct } from './slices
 import { Dialog } from '@mui/material';
 import ProductInfoForm from './product-info-form';
 import { selectProduct, selectProductInitial, SelectProductState, selectSelectProduct } from './slices/select-product-slice';
+import { selectUpdateProduct, updateProduct, UpdateProductState } from './slices/update-product-slice';
+import { useDispatch } from 'react-redux';
 
 
 /* PRODUCT TABLE HEADERS */
@@ -109,6 +111,7 @@ export default function ProductsPage(){
   const getAllProductsState = useAppSelector(selectGetAllProducts);
   const selectProductState = useAppSelector(selectSelectProduct);
   const removeProductState = useAppSelector(selectRemoveProduct);
+  const updateProductState = useAppSelector(selectUpdateProduct);
   let idsToDelete : Array<string> = [];
   
   const [update, setUpdate] = useState(false);
@@ -157,7 +160,7 @@ export default function ProductsPage(){
       if(authorizationState.token)
         dispatch(getAllProducts({token: authorizationState.token}));
     }
-  },[authorizationState, dispatch]);
+  },[authorizationState,updateProductState , dispatch]);
 
   useEffect(()=>{
     switch(removeProductState.status){
@@ -247,11 +250,48 @@ export default function ProductsPage(){
 
 function UpdateProductDialog(props : any) {
   const { open } = props;
+  
+  let query = useQuery();
+  
+  const selectProductState = useAppSelector(selectSelectProduct);
+  const authorizationState = useAppSelector(selectAuthentication);
+  const updateProductState = useAppSelector(selectUpdateProduct);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+      switch(updateProductState.status){
+          case UpdateProductState.success:
+              navigate('/products');
+              break;
+      }
+  },[updateProductState, navigate]);
+  
+  /** Add Product On Submit Form */
+  function onSubmit(event : any){
+      event.preventDefault();
+      
+      const formData : FormData = new FormData(event.target);
+      const productId = query.get('product_id');
+
+
+      if(
+        productId &&
+        authorizationState.status === AuthenticationState.success){
+          if(authorizationState.token)
+            dispatch(updateProduct({
+                token: authorizationState.token,
+                formData,
+                productId: productId,
+              }));
+      }
+  }
+
 
   return (
     <Dialog open={open} fullWidth={true} maxWidth='xl'>
 
-      <ProductInfoForm></ProductInfoForm>
+      <ProductInfoForm product={selectProductState.data} onSubmit={onSubmit}></ProductInfoForm>
       
       <div className="flex items-center justify-center w-full gap-5 mb-5 align-center">
           <button className="px-4 py-2 font-bold text-white bg-blue-400 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline" type="submit" form='product-info-form'>

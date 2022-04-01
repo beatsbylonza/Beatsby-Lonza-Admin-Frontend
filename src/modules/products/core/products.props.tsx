@@ -16,8 +16,8 @@ export interface RemoveProductProps{
 
 export interface UpdateProductProps{
     token: string,
-
     productId: string,
+    formData: FormData,
 }
 
 export interface SelectProductProps{

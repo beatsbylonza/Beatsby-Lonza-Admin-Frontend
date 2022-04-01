@@ -12,13 +12,13 @@ export interface ProductModel {
     stock: number,
     sales: number,
     sold: number,
+    available: number,
 
     category: string,
     color: string,
     description: string,
     imageUrl: string,
     size: string,
-    available: string,
 
 
 }

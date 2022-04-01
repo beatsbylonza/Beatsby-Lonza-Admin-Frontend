@@ -1,23 +1,44 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '../../config/hooks';
 import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_SIZES } from '../../shared/constants';
-import { selectSelectProduct } from './slices/select-product-slice';
+import { ProductModel } from '../core/domain/product.model';
 
 export default function ProductInfoForm(props: any){
 
 
-    const { onSubmit } = props;
+    const { onSubmit, product }  : { onSubmit: any, product : ProductModel}= props;
+    
+    const [state, setState] = useState<{
+        name: string,
+        description: string,
+        category: string,
+        size: string,
+        color: string,
+        price: number,
+        available: number,
+        stock: number,
+        image: string | undefined,
+    }>({
+        name: '',
+        description: '',
+        category: '',
+        size: '',
+        color: '',
+        price: 0,
+        available: 0,
+        stock: 0,
+        image: undefined
+    });
 
-    const [image, setImage] = useState<any>(null);
-
-    const selectProductState = useAppSelector(selectSelectProduct);
 
     const onImageChange = (event: any) => {
 
         if (event.target.files && event.target.files[0]) {
             let reader = new FileReader();
             reader.onload = (e: any) => {
-            setImage(e.target.result);
+                setState((prevState  : any) => ({
+                    ...prevState,
+                    image: e.target.result,
+                }));
             };
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -25,10 +46,21 @@ export default function ProductInfoForm(props: any){
     }
 
     useEffect(()=>{
-        if(selectProductState.data?.imageUrl){
-            setImage(selectProductState.data.imageUrl);
+        if(product?.imageUrl){
+            setState((prevState  : any) => ({
+                ...product,
+                price: product.price.value.$numberDecimal,
+                image: product?.imageUrl? product.imageUrl : undefined,
+            }));
         }
-    },[selectProductState]);
+    },[product]);
+
+    const handleChange = (e: any) => {
+        setState((prevState: any) => ({
+          ...prevState,
+          [e.target.name]: e.target.value,
+        }));
+    };
 
     
 
@@ -45,7 +77,8 @@ export default function ProductInfoForm(props: any){
                         placeholder=""  
                         id="name"
                         name="name"
-                        value={selectProductState.data?.name}
+                        value={state?.name}
+                        onChange={handleChange}
                         className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white"
                     />
                     
@@ -55,7 +88,8 @@ export default function ProductInfoForm(props: any){
                     </label>
                     <div className="relative">
                         <select 
-                            value={selectProductState.data?.category}
+                            value={state?.category}
+                            onChange={handleChange}
                             className="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-100 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500" 
                             id="category"
                             name="category">
@@ -77,7 +111,7 @@ export default function ProductInfoForm(props: any){
                         <div className="rounded-lg shadow-xl bg-gray-50 w-[400px]">
                             <div className="m-4 relative">
                                 {
-                                    (image === null) ?
+                                    (!state?.image) ?
                                     <>
                                         <label className="inline-block mb-2 text-gray-500">Upload
                                             Image </label>
@@ -98,10 +132,10 @@ export default function ProductInfoForm(props: any){
                                         </div>
                                     </> :
                                         <div className='h-[300px] w-auto relative'>
-                                            <img className='top-0 object-contain h-[300px] w-[400px]' src={image} alt={image}/>
+                                            <img className='top-0 object-contain h-[300px] w-[400px]' src={state?.image} alt=''/>
                                     </div>
                                 }
-                                <input required onChange={onImageChange} type="file" className="absolute top-0 w-full h-full opacity-0" id='image' name="image" />
+                                <input required={state?.image === undefined ? true : false} onChange={onImageChange} type="file" className="absolute top-0 w-full h-full opacity-0" id='image' name="image" />
                             </div>
                         </div>
                     </div>
@@ -117,7 +151,8 @@ export default function ProductInfoForm(props: any){
                     </label>
                     <textarea 
                         rows={10} 
-                        value={selectProductState.data?.description}
+                        onChange={handleChange}
+                        value={state?.description}
                         className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white" 
                         id="description"
                         name="description"
@@ -135,9 +170,10 @@ export default function ProductInfoForm(props: any){
                         <div className='relative'>
 
                             <select 
-                                value={selectProductState.data?.size}
+                                value={state?.size}
                                 className="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-100 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="size" 
+                                onChange={handleChange}
                                 name="size">
                                 {
                                     PRODUCT_SIZES.map((value: string, index: number)=> <option key={index}>{value}</option> )
@@ -158,9 +194,10 @@ export default function ProductInfoForm(props: any){
                             required 
                             id="price" 
                             name="price"
-                            value={selectProductState.data?.price.value.$numberDecimal}
+                            value={state?.price}
                             className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white" 
                             type="number" 
+                            onChange={handleChange}
                             placeholder="" />
                         
 
@@ -172,7 +209,8 @@ export default function ProductInfoForm(props: any){
                             required 
                             id="stock" 
                             name="stock"
-                            value={selectProductState.data?.stock}
+                            value={state?.stock}
+                            onChange={handleChange}
                             className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white" 
                             type="number" 
                             placeholder="" />
@@ -193,6 +231,7 @@ export default function ProductInfoForm(props: any){
                             <select 
                                 className="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-100 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="color" 
+                                onChange={handleChange}
                                 name="color">
                                 {
                                     PRODUCT_COLOR.map((value: string, index: number)=> <option key={index}>{value}</option> )
@@ -208,13 +247,14 @@ export default function ProductInfoForm(props: any){
                         
 
                         <label className="block mt-5 mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" htmlFor="prize">
-                            Available
+                            Available   
                         </label>
                         <input 
                             required 
                             id="available" 
                             name="available"
-                            value={selectProductState.data?.available}
+                            value={state?.available}
+                            onChange={handleChange}
                             className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white" 
                             type="number" 
                             placeholder="" />
