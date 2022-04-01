@@ -12,6 +12,7 @@ import { Slide, Snackbar} from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import { addProductInitial, AddProductState, selectAddProduct } from '../../products/presentation/slices/add-product-slice';
 import { removeProduct, removeProductInitial, RemoveProductState, selectRemoveProduct } from '../../products/presentation/slices/remove-product-slice';
+import { selectUpdateProduct, updateProductInitial, UpdateProductState } from '../../products/presentation/slices/update-product-slice';
 
 
 
@@ -59,9 +60,11 @@ function StackedOutlet(){
   const loginState  = useAppSelector(selectLogin);
   const addProductState = useAppSelector(selectAddProduct);
   const removeProductState = useAppSelector(selectRemoveProduct);
+  const updateProductState = useAppSelector(selectUpdateProduct);
 
   const dispatch = useAppDispatch();
 
+  /** Login State */
   useEffect(()=>{
     switch(loginState){
       case LoginState.inProgress:
@@ -86,6 +89,7 @@ function StackedOutlet(){
   },[loginState, dispatch]);
 
   
+  /** Add Product State */
   useEffect(()=>{
     switch(addProductState.status){
       case AddProductState.inProgress:
@@ -105,6 +109,7 @@ function StackedOutlet(){
 
   },[addProductState, dispatch]);
 
+  /** Remove Product State */
   useEffect(()=>{
     switch(removeProductState.status){
       case RemoveProductState.inProgress:
@@ -123,6 +128,25 @@ function StackedOutlet(){
     }
   },[removeProductState, dispatch]);
 
+  
+  /** Update Product State */
+  useEffect(()=>{
+    switch(updateProductState.status){
+      case UpdateProductState.inProgress:
+        toggleLoading(true);
+        break;
+      case UpdateProductState.success:
+        showAlert(setSuccessAlert, updateProductState.message);
+        dispatch(updateProductInitial());
+        toggleLoading(false);
+        break;
+      case UpdateProductState.fail:
+        showAlert(setFailsAlert, updateProductState.message);
+        dispatch(updateProductInitial());
+        toggleLoading(false);
+        break;
+    }
+  },[updateProductState, dispatch]);
 
   return (
     <div>
