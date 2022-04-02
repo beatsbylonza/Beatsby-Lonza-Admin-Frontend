@@ -14,9 +14,7 @@ const useStyles = makeStyles({
   
 export default function Loading(props: any){
     const { open } = props;
-    const classes = useStyles();
-  
-
+    
     return (
       <Backdrop
       sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -24,15 +22,5 @@ export default function Loading(props: any){
     >
       <CircularProgress color="inherit" />
     </Backdrop>
-        // <Dialog open={open} 
-        // scroll="paper" 
-        // classes={{
-        //   scrollPaper: classes.topScrollPaper,
-        //   paperScrollBody: classes.topPaperScrollBody
-        // }}>
-        //     <DialogContent style={{width: '200px', display: 'flex', justifyContent: 'center'}}>
-        //         <CircularProgress />
-        //     </DialogContent>
-        // </Dialog>
     );
 }

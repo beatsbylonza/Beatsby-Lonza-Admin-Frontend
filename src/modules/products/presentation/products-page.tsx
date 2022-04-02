@@ -15,6 +15,8 @@ import ProductInfoForm from './product-info-form';
 import { selectProduct, selectProductInitial, SelectProductState, selectSelectProduct } from './slices/select-product-slice';
 import { selectUpdateProduct, updateProduct, UpdateProductState } from './slices/update-product-slice';
 import { useDispatch } from 'react-redux';
+import { withStyles } from '@mui/styles';
+import BeatsByLonzaDialog from '../../shared/components/dialog';
 
 
 /* PRODUCT TABLE HEADERS */
@@ -252,7 +254,7 @@ function UpdateProductDialog(props : any) {
   const { open } = props;
   
   let query = useQuery();
-  
+
   const selectProductState = useAppSelector(selectSelectProduct);
   const authorizationState = useAppSelector(selectAuthentication);
   const updateProductState = useAppSelector(selectUpdateProduct);
@@ -289,7 +291,7 @@ function UpdateProductDialog(props : any) {
 
 
   return (
-    <Dialog open={open} fullWidth={true} maxWidth='xl'>
+    <BeatsByLonzaDialog open={open}>
 
       <ProductInfoForm product={selectProductState.data} onSubmit={onSubmit}></ProductInfoForm>
       
@@ -304,7 +306,7 @@ function UpdateProductDialog(props : any) {
           </Link>
       </div>
 
-     
-    </Dialog>
+
+    </BeatsByLonzaDialog>
   );
 }

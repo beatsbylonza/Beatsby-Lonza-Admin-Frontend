@@ -26,7 +26,7 @@ export interface AuthenticateTokenRepositoryResponse{
 }
 
 export function LoginUserRepository(props : LoginProps) : Promise<LoginRepositoryResponse> {
-    return axios.post(`${REACT_APP_API_URL}/login`, props);
+    return axios.post(`${REACT_APP_API_URL}/login/admin`, props);
 }
 
 export function RegisterUserRepository(props : RegisterProps) : Promise<RegisterRepositoryResponse> {

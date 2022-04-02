@@ -95,7 +95,7 @@ export default function OrdersPage() {
       
       <section className='flex-1' >
         <DataGrid
-          rows={getAllOrdersState.data.length === 0 ? [] : getAllOrdersState.data }
+          rows={[]}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
