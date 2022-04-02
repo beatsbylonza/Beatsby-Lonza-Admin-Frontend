@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react';
+import { Component, useEffect, useState } from 'react';
 import { PRODUCT_CATEGORIES, PRODUCT_COLOR, PRODUCT_SIZES } from '../../shared/constants';
 import { ProductModel } from '../core/domain/product.model';
+import { Autocomplete, TextField, Chip } from '@mui/material';
 
 export default function ProductInfoForm(props: any){
-
-
     const { onSubmit, product }  : { onSubmit: any, product : ProductModel}= props;
     
     const [state, setState] = useState<{
         name: string,
         description: string,
         category: string,
-        size: string,
-        color: string,
+        sizes: Array<string>,
+        colors: Array<string>,
         price: number,
         available: number,
         stock: number,
@@ -21,8 +20,8 @@ export default function ProductInfoForm(props: any){
         name: '',
         description: '',
         category: '',
-        size: '',
-        color: '',
+        sizes: [],
+        colors: [],
         price: 0,
         available: 0,
         stock: 0,
@@ -31,7 +30,6 @@ export default function ProductInfoForm(props: any){
 
 
     const onImageChange = (event: any) => {
-
         if (event.target.files && event.target.files[0]) {
             let reader = new FileReader();
             reader.onload = (e: any) => {
@@ -62,7 +60,8 @@ export default function ProductInfoForm(props: any){
         }));
     };
 
-    
+    const [colors, setColors] = useState<any>([]);
+    const [sizes, setSizes] = useState<any>([]);
 
     return (
         <form id='product-info-form' className="w-full max-w" onSubmit={onSubmit}>
@@ -109,7 +108,7 @@ export default function ProductInfoForm(props: any){
                     </label>
                     <div className="flex justify-center mt-2">
                         <div className="rounded-lg shadow-xl bg-gray-50 w-[400px]">
-                            <div className="m-4 relative">
+                            <div className="relative m-4">
                                 {
                                     (!state?.image) ?
                                     <>
@@ -163,13 +162,10 @@ export default function ProductInfoForm(props: any){
                 <div className="flex flex-wrap w-full px-3 mb-6 md:w-1/2 md:mb-0">
 
                     <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
-                        <label className="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" htmlFor="size">
-                            Size
-                        </label>
 
                         <div className='relative'>
 
-                            <select 
+                            {/* <select 
                                 value={state?.size}
                                 className="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-100 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500" 
                                 id="size" 
@@ -178,12 +174,28 @@ export default function ProductInfoForm(props: any){
                                 {
                                     PRODUCT_SIZES.map((value: string, index: number)=> <option key={index}>{value}</option> )
                                 }
-                            </select>
-                            
-                            <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
-                                <svg className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
-
+                            </select> */}
+                            <Autocomplete
+                                multiple
+                                id="size"
+                                options={[]}
+                                defaultValue={[]}
+                                freeSolo
+                                renderTags={(value: readonly string[], getTagProps) => {
+                                        return value.map((option: string, index: number) => (
+                                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                                        ));
+                                    }
+                                }
+                                onChange={(e:any)=> setSizes([...sizes, e.target.value])}
+                                renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="filled"
+                                    label="SIZE"
+                                />
+                                )}
+                            />
                         </div>
                         
 
@@ -217,30 +229,31 @@ export default function ProductInfoForm(props: any){
 
                     </div>
 
-                    <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
-                        <label 
-                            className="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" 
-                            htmlFor="color">
-                            Color
-                        </label>
-
-                        
+                    <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">       
 
                         <div className='relative'>
 
-                            <select 
-                                className="block w-full px-4 py-3 pr-8 leading-tight text-gray-700 bg-gray-100 border border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-gray-500" 
-                                id="color" 
-                                onChange={handleChange}
-                                name="color">
-                                {
-                                    PRODUCT_COLOR.map((value: string, index: number)=> <option key={index}>{value}</option> )
+                            <Autocomplete
+                                multiple
+                                id="color"
+                                options={[]}
+                                defaultValue={[]}
+                                freeSolo
+                                renderTags={(value: readonly string[], getTagProps) => {
+                                        return value.map((option: string, index: number) => (
+                                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                                        ));
+                                    }
                                 }
-                            </select>
-                            
-                            <div className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
-                                <svg className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                            </div>
+                                onChange={(e:any)=> setColors([...colors, e.target.value])}
+                                renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="filled"
+                                    label="COLOR"
+                                />
+                                )}
+                            />
 
                         </div>
 

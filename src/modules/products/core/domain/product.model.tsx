@@ -15,10 +15,10 @@ export interface ProductModel {
     available: number,
 
     category: string,
-    color: string,
+    colors: Array<string>,
     description: string,
     imageUrl: string,
-    size: string,
+    sizes: Array<string>,
 
 
 }

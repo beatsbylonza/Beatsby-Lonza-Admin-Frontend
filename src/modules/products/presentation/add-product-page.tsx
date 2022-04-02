@@ -65,7 +65,7 @@ export default function AddProductPage(){
                     <button className="px-4 py-2 font-bold text-white bg-blue-400 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline" type="submit" form='product-info-form'>
                         Save
                     </button>
-                    <Link className="px-4 py-2 font-bold text-black bg-white border border-blue-100 rounded hover:bg-gray-300 focus:outline-none focus:shadow-outline cursor-pointer" to='/products'>
+                    <Link className="px-4 py-2 font-bold text-black bg-white border border-blue-100 rounded cursor-pointer hover:bg-gray-300 focus:outline-none focus:shadow-outline" to='/products'>
                         Cancel
                     </Link>
                 </div>
