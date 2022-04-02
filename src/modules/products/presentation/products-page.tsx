@@ -270,11 +270,14 @@ function UpdateProductDialog(props : any) {
   },[updateProductState, navigate]);
   
   /** Add Product On Submit Form */
-  function onSubmit(event : any){
+  function onSubmit(event : any, props: {colors: Array<string>, sizes : Array<string> }){
       event.preventDefault();
       
       const formData : FormData = new FormData(event.target);
       const productId = query.get('product_id');
+      
+      formData.append('sizes', JSON.stringify(props.sizes));
+      formData.append('colors', JSON.stringify(props.colors));
 
 
       if(

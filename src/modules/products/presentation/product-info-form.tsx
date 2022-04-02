@@ -43,6 +43,7 @@ export default function ProductInfoForm(props: any){
 
     }
 
+    /** GET Existing data to backend  */
     useEffect(()=>{
         if(product?.imageUrl){
             setState((prevState  : any) => ({
@@ -51,6 +52,9 @@ export default function ProductInfoForm(props: any){
                 image: product?.imageUrl? product.imageUrl : undefined,
             }));
         }
+        
+        setSizes(product?.sizes.length > 0 ? product?.sizes: []);
+        setColors(product?.colors.length > 0 ? product?.colors: []);
     },[product]);
 
     const handleChange = (e: any) => {
@@ -64,7 +68,7 @@ export default function ProductInfoForm(props: any){
     const [sizes, setSizes] = useState<any>([]);
 
     return (
-        <form id='product-info-form' className="w-full max-w" onSubmit={onSubmit}>
+        <form id='product-info-form' className="w-full max-w" onSubmit={(e : any )=> onSubmit(e, { sizes, colors })}>
             <div className="flex flex-wrap w-full px-2 py-5 max-w">
                 <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0">
                     <label className="block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase" htmlFor="name">
@@ -179,7 +183,10 @@ export default function ProductInfoForm(props: any){
                                 multiple
                                 id="size"
                                 options={[]}
-                                defaultValue={[]}
+                                value={sizes}
+                                onChange={(_, newValue) => {
+                                    setSizes(newValue)
+                                }}
                                 freeSolo
                                 renderTags={(value: readonly string[], getTagProps) => {
                                         return value.map((option: string, index: number) => (
@@ -187,7 +194,6 @@ export default function ProductInfoForm(props: any){
                                         ));
                                     }
                                 }
-                                onChange={(e:any)=> setSizes([...sizes, e.target.value])}
                                 renderInput={(params) => (
                                 <TextField
                                     {...params}
@@ -221,7 +227,6 @@ export default function ProductInfoForm(props: any){
                             required 
                             id="stock" 
                             name="stock"
-                            value={state?.stock}
                             onChange={handleChange}
                             className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white" 
                             type="number" 
@@ -237,7 +242,10 @@ export default function ProductInfoForm(props: any){
                                 multiple
                                 id="color"
                                 options={[]}
-                                defaultValue={[]}
+                                value={colors}
+                                onChange={(_, newValue) => {
+                                    setColors(newValue)
+                                }}
                                 freeSolo
                                 renderTags={(value: readonly string[], getTagProps) => {
                                         return value.map((option: string, index: number) => (
@@ -245,7 +253,6 @@ export default function ProductInfoForm(props: any){
                                         ));
                                     }
                                 }
-                                onChange={(e:any)=> setColors([...colors, e.target.value])}
                                 renderInput={(params) => (
                                 <TextField
                                     {...params}
