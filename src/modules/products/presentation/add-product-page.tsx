@@ -21,8 +21,7 @@ export default function AddProductPage(){
     /** Add Product On Submit Form */
     function onSubmit(event : any, props: {colors: Array<string>, sizes : Array<string> }){
         event.preventDefault();
-        
-        
+    
         const formData : FormData = new FormData(event.target);
         
         formData.append('sizes', JSON.stringify(props.sizes));

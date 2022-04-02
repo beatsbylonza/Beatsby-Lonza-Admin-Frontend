@@ -28,9 +28,12 @@ export default function ProductInfoForm(props: any){
         image: undefined
     });
 
+    const [preserve, setPreserve] = useState(null)
+
 
     const onImageChange = (event: any) => {
         if (event.target.files && event.target.files[0]) {
+            setPreserve(event.target.files)
             let reader = new FileReader();
             reader.onload = (e: any) => {
                 setState((prevState  : any) => ({
@@ -39,8 +42,9 @@ export default function ProductInfoForm(props: any){
                 }));
             };
             reader.readAsDataURL(event.target.files[0]);
+        }else{
+            event.target.files = preserve
         }
-
     }
 
     /** GET Existing data to backend  */
@@ -134,8 +138,8 @@ export default function ProductInfoForm(props: any){
                                             </label>
                                         </div>
                                     </> :
-                                        <div className='h-[300px] w-auto relative'>
-                                            <img className='top-0 object-contain h-[300px] w-[400px]' src={state?.image} alt=''/>
+                                    <div className='h-[300px] w-auto relative'>
+                                        <img className='top-0 object-contain h-[300px] w-[400px]' src={state?.image} alt=''/>
                                     </div>
                                 }
                                 <input required={state?.image === undefined ? true : false} onChange={onImageChange} type="file" className="absolute top-0 w-full h-full opacity-0" id='image' name="image" />
@@ -231,7 +235,6 @@ export default function ProductInfoForm(props: any){
                             onChange={handleChange}
                             className="block w-full px-4 py-3 mb-3 leading-tight text-gray-700 bg-gray-100 border border-gray-400 rounded appearance-none focus:outline-none focus:bg-white" 
                             type="number" 
-                            value={state?.stock}
                             placeholder="" />
 
                     </div>
